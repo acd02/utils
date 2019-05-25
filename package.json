@@ -1,0 +1,46 @@
+{
+  "name": "acd-utils",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "umd:main": "dist/acd-utils.umd.production.js",
+  "module": "dist/acd-utils.es.production.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "np": {
+    "yarn": false
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "cli-publish": "npm run build && npx np"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 90,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "dependencies": {
+    "fp-ts": "1.18.2"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.13",
+    "np": "5.0.2",
+    "husky": "2.3.0",
+    "prettier": "1.17.1",
+    "pretty-quick": "1.11.0",
+    "tsdx": "0.5.11",
+    "tslib": "1.9.3",
+    "typescript": "3.4.5"
+  }
+}

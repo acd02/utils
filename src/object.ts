@@ -31,11 +31,21 @@ export const omitKeys: OmitKeys = (obj, ...keys) => {
   return ret
 }
 
-const obj = {
-  name: 'ok',
-  value: 2
+/**
+ * Preserves the type of the array returned by Object.keys
+ *
+ * @example
+ *
+ * const item = {
+ *   label: 'ten',
+ *   id: 10,
+ *   isCool: true
+ * }
+ *
+ * const keys = objectKeys(item).map(k => k.toUpperCase())
+ * k = 'label' | 'id' | 'isCool'
+ *
+ */
+export function objectKeys<T>(obj: T): (keyof T)[] {
+  return Object.keys(obj) as (keyof T)[]
 }
-
-const nw = omitKeys(obj, 'value')
-
-nw.name

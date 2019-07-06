@@ -27,7 +27,7 @@ export function get<Err, Res>(url: string) {
         .then(handleErrors)
         .then(i => i.json()),
     err => err as Err
-  ).run()
+  )()
 }
 
 /**
@@ -68,5 +68,5 @@ export function post<Data, Err, Res>(body: Data) {
           .then(handleErrors)
           .then(i => i.json()),
       err => err as Err
-    ).run()
+    )()
 }

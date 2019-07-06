@@ -1,5 +1,5 @@
 /* eslint-disable import/export */
-import { fromNullable, Option, none, Some } from 'fp-ts/lib/Option'
+import { Option, none, isSome, Some, toUndefined, some } from 'fp-ts/lib/Option'
 
 /**
  * Returns a tuple of Some if all Options inside the array are defined,
@@ -132,7 +132,5 @@ export function optionAll<T1>(arr: [Option<T1>]): Option<[T1]>
  * @param array An array of Option
  */
 export function optionAll<T>(arr: Option<T>[]): Option<T[]> {
-  return arr.every(opt => opt.isSome())
-    ? (fromNullable(arr).map(i => i.map(_ => _.toUndefined())) as Some<T[]>)
-    : none
+  return arr.every(isSome) ? ((some(arr.map(toUndefined)) as unknown) as Some<T[]>) : none
 }

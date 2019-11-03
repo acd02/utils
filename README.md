@@ -9,11 +9,11 @@ npm install acd-utils
 ```
 
 Then you can import each module individually:
-- [array](##Array)
-- [logic](##Logic)
-- [function](##Function)
-- [object](##Object)
-- [predicate](##Predicate)
+- [array](#Array)
+- [logic](#Logic)
+- [function](#Function)
+- [object](#Object)
+- [predicate](#Predicate)
 
 
 ## Array

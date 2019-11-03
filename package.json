@@ -1,26 +1,25 @@
 {
   "name": "acd-utils",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "acd02",
   "main": "dist/index.js",
-  "umd:main": "dist/acd-utils.umd.production.js",
-  "module": "dist/acd-utils.es.production.js",
+  "module": "dist/acd-utils.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "np": {
-    "yarn": false
-  },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "npm run prettier && tsdx build",
     "test": "tsdx test",
-    "cli-publish": "npm run build && npx np"
+    "lint": "tsdx lint",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "tsdx lint"
     }
   },
   "prettier": {
@@ -28,17 +27,14 @@
     "printWidth": 90,
     "tabWidth": 2,
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "all"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/jest": "24.0.13",
-    "np": "5.1.2",
-    "husky": "3.0.9",
-    "prettier": "1.18.2",
-    "pretty-quick": "2.0.0",
-    "tsdx": "0.11.0",
-    "tslib": "1.10.0",
-    "typescript": "3.6.4"
+    "@types/jest": "^24.0.21",
+    "husky": "^3.0.9",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.6.4"
   }
 }

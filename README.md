@@ -119,7 +119,7 @@ Creates a throttled function that only invokes func at most once per every wait 
 
 #### doWhen
 
-arguments:
+**arguments**
 
 - a tuple (up to 5) of potentially undefined values.
 - a function A function that will be called with the
@@ -200,7 +200,7 @@ Check whether the value is defined or not
 
 #### isEmpty
 
-Check whether the value is empty.
+Check if the value is empty.
 
 empty means `""`, `[]` or `{}`.
 

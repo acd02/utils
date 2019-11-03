@@ -1,8 +1,5 @@
 // see: https://github.com/hrajchert/ts-curry-example
 
-/* function
-   ========================================================================== */
-
 export type Curry4<A, B, C, D, R> = {
   (a: A, b: B, c: C, d: D): R
   (a: A, b: B, c: C): Curry1<D, R>

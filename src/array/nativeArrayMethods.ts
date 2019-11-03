@@ -1,6 +1,3 @@
-/* array
-   ========================================================================== */
-
 /**
  * Calls a defined callback function on each element of an array,
  * and returns an array that contains the results.

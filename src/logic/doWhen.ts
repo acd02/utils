@@ -1,6 +1,3 @@
-/* logic
-   ========================================================================== */
-
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
  *
@@ -41,8 +38,8 @@ export function doWhen<T1, T2, T3, T4, T5>(
       NonNullable<T2>,
       NonNullable<T3>,
       NonNullable<T4>,
-      NonNullable<T5>
-    ]
+      NonNullable<T5>,
+    ],
   ) => void,
   filterFunc?: (
     values: [
@@ -50,9 +47,9 @@ export function doWhen<T1, T2, T3, T4, T5>(
       NonNullable<T2>,
       NonNullable<T3>,
       NonNullable<T4>,
-      NonNullable<T5>
-    ]
-  ) => boolean
+      NonNullable<T5>,
+    ],
+  ) => boolean,
 ): void
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
@@ -89,11 +86,11 @@ export function doWhen<T1, T2, T3, T4, T5>(
 export function doWhen<T1, T2, T3, T4>(
   predicateValues: [T1, T2, T3, T4],
   func: (
-    values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>]
+    values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>],
   ) => void,
   filterFunc?: (
-    values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>]
-  ) => boolean
+    values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>],
+  ) => boolean,
 ): void
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
@@ -130,7 +127,7 @@ export function doWhen<T1, T2, T3, T4>(
 export function doWhen<T1, T2, T3>(
   predicateValues: [T1, T2, T3],
   func: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => void,
-  filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => boolean
+  filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => boolean,
 ): void
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
@@ -167,7 +164,7 @@ export function doWhen<T1, T2, T3>(
 export function doWhen<T1, T2>(
   predicateValues: [T1, T2],
   func: (values: [NonNullable<T1>, NonNullable<T2>]) => void,
-  filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>]) => boolean
+  filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>]) => boolean,
 ): void
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
@@ -204,7 +201,7 @@ export function doWhen<T1, T2>(
 export function doWhen<T1>(
   predicateValues: [T1],
   func: (values: [NonNullable<T1>]) => void,
-  filterFunc?: (values: [NonNullable<T1>]) => boolean
+  filterFunc?: (values: [NonNullable<T1>]) => boolean,
 ): void
 /**
  * Only execute the `func` function if all the value inside the tuple are truthy.
@@ -241,7 +238,7 @@ export function doWhen<T1>(
 export function doWhen<T>(
   predicateValues: T[],
   func: (...values: NonNullable<T[]>) => void,
-  filterFunc?: (...values: NonNullable<T[]>) => boolean
+  filterFunc?: (...values: NonNullable<T[]>) => boolean,
 ) {
   if (!predicateValues.some(v => !v)) {
     if (!!filterFunc) {

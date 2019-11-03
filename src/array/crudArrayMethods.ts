@@ -1,6 +1,3 @@
-/* array
-   ========================================================================== */
-
 /**
  * Insert an element at the specified index, creating a new array,
  * or returning the array as is if the index is out of bounds

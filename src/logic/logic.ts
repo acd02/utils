@@ -1,6 +1,3 @@
-import { doWhen } from './misc/doWhen'
-export { doWhen }
-
 /**
  * Creates a function that will process either the onTrue or the onFalse
  * function depending upon the result of the condition predicate.
@@ -23,7 +20,7 @@ export { doWhen }
 export function ifElse<T, U>(
   predicate: (arg: T) => boolean,
   onTrue: (arg: NonNullable<T>) => U,
-  onFalse: () => U
+  onFalse: () => U,
 ): (value: T) => U {
   return value => (predicate(value) ? onTrue(value as NonNullable<T>) : onFalse())
 }
@@ -46,7 +43,7 @@ export function ifElse<T, U>(
  */
 export function when<T>(
   predicate: (arg: T) => boolean,
-  whenTrue: (arg: T) => T
+  whenTrue: (arg: T) => T,
 ): (value: T) => T {
   return value => (predicate(value) ? whenTrue(value) : value)
 }

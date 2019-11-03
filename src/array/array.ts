@@ -1,18 +1,3 @@
-import { insertAt, lookupAt, modifyAt, updateAt, deleteAt } from './misc/crudArrayMethods'
-import {
-  map,
-  filter,
-  filterTypeGuard,
-  reduce,
-  some,
-  every,
-  includes,
-  concat
-} from './misc/nativeArrayMethods'
-
-export { insertAt, lookupAt, modifyAt, updateAt, deleteAt }
-export { map, filter, filterTypeGuard, reduce, some, every, includes, concat }
-
 /**
  * Get the first element in an array, or `undefined` if the array is empty.
  *
@@ -80,7 +65,7 @@ export function append<T>(item: T) {
  * @param array The array to compact.
  */
 export function compact<T>(
-  array: (T | null | undefined | false | '')[]
+  array: (T | null | undefined | false | '')[],
 ): NonNullable<T>[] {
   return array.filter(t => {
     if (typeof t === 'number' && t === 0) return true

@@ -1,7 +1,3 @@
-import { curry } from './misc/curry'
-
-export { curry }
-
 /**
  * This function returns undefined.
  *
@@ -63,7 +59,7 @@ type ThrottleParams = {
 export function throttle(
   func: Function,
   wait: number,
-  options: ThrottleParams = { leading: true, trailing: true }
+  options: ThrottleParams = { leading: true, trailing: true },
 ): () => void {
   const context = null
 

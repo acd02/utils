@@ -1,3 +1,7 @@
+import { curry } from './misc/curry'
+
+export { curry }
+
 /**
  * This function returns undefined.
  *

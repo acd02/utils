@@ -2,6 +2,20 @@
 
 A collection of utils implemented in TypeScript.
 
+## Getting started
+
+```
+npm install acd-utils
+```
+
+Then you can import each module individually:
+- [array](##Array)
+- [logic](##Logic)
+- [function](##Function)
+- [object](##Object)
+- [predicate](##Predicate)
+
+
 ## Array
 
 `import { _array } from 'acd-utils'`

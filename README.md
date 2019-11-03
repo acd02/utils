@@ -1,8 +1,10 @@
 # Utils
 
+A collection of utils implemented in TypeScript.
+
 ## Array
 
-`import { _array } from 'acd-utils`
+`import { _array } from 'acd-utils'`
 
 ### Helpers:
 
@@ -79,7 +81,7 @@ Change the element at the specified index, creating a new array, or returning th
 
 ## Function
 
-`import { _function } from 'acd-utils`
+`import { _function } from 'acd-utils'`
 
 #### curry
 
@@ -99,7 +101,7 @@ Creates a throttled function that only invokes func at most once per every wait 
 
 ## Logic
 
-`import { _logic } from 'acd-utils`
+`import { _logic } from 'acd-utils'`
 
 #### doWhen
 
@@ -119,7 +121,7 @@ you can pass a filter function, which will be called with the values contained b
 
 in that case, the function will be executed only if the filter function returns true
 
-example:
+**example**
 
 ```typescript
 const maybeElm = document.querySelector('.foo')
@@ -151,13 +153,13 @@ Creates a function that will process the whenTrue function if the condition pred
 
 ## Object
 
-`import { _object } from 'acd-utils`
+`import { _object } from 'acd-utils'`
 
 #### objectKeys
 
 Preserves the type of the array returned by `Object.keys`
 
-example:
+**example**
 
 ```typescript
 const item = {
@@ -176,7 +178,7 @@ Returns a partial copy of an object omitting the keys specified.
 
 ## Predicate
 
-`import { _predicate } from 'acd-utils`
+`import { _predicate } from 'acd-utils'`
 
 #### isDefined
 
@@ -195,27 +197,3 @@ empty means `""`, `[]` or `{}`.
 # TSDX Bootstrap
 
 This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
-
-## Local Development
-
-Below is a list of commands you will probably find useful.
-
-### `npm start` or `yarn start`
-
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
-
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
-
-Your library will be rebuilt if you make edits.
-
-### `npm run build` or `yarn build`
-
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
-
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
-
-### `npm test` or `yarn test`
-
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.

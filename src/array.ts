@@ -1,6 +1,4 @@
 import { insertAt, lookupAt, modifyAt, updateAt, deleteAt } from './misc/crudArrayMethods'
-export { insertAt, lookupAt, modifyAt, updateAt, deleteAt }
-
 import {
   map,
   filter,
@@ -11,6 +9,8 @@ import {
   includes,
   concat
 } from './misc/nativeArrayMethods'
+
+export { insertAt, lookupAt, modifyAt, updateAt, deleteAt }
 export { map, filter, filterTypeGuard, reduce, some, every, includes, concat }
 
 /**

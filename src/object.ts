@@ -44,17 +44,6 @@ export function objectKeys<T>(obj: T): (keyof T)[] {
   return Object.keys(obj) as (keyof T)[]
 }
 
-type Item = {
-  label: string
-  id: number
-  isCool: boolean
-}
-const item: Item = {
-  label: 'ten',
-  id: 10,
-  isCool: true
-}
-
 /* Helpers
    ========================================================================== */
 

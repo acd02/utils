@@ -38,6 +38,23 @@ export function prepend<T>(item: T) {
 }
 
 /**
+ * Attaches an array to the front of another array, creating a new array.
+ *
+ * @param array original array.
+ * @returns Returns a function that expects the `array` that will be attached to the original array.
+ *
+ * @example
+ *
+ * const original = ['one', 'two']
+ * const other = ['three', 'four']
+ * const result = prependArr(original)(other)
+ * // result ==== ['three', 'four', 'one', 'two]
+ */
+export function prependArr<T>(original: T[]) {
+  return (other: T[]) => other.concat(original)
+}
+
+/**
  * Append an element to the end of an array, creating a new array
  *
  * @param T item to append
@@ -150,4 +167,84 @@ export function sortBy<T>(opts: SortOption<T>[]) {
       return 0
     })
   }
+}
+
+/**
+ * Drop a number of elements from the start of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two', 'three', 'four']
+ * const result = drop(2)(words)
+ * // result === ['three', 'four']
+ */
+export function drop<T>(n: number) {
+  return (arr: T[]) => (n < 0 ? arr : arr.slice(n))
+}
+
+/**
+ * Drop a number of elements from the end of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two', 'three', 'four']
+ * const result = dropRigth(1)(words)
+ * // result === ['one', 'two', 'three']
+ */
+export function dropRight<T>(n: number) {
+  return (arr: T[]) => (n < 1 ? arr : arr.slice(0, -n))
+}
+
+/**
+ * Create an array containing a range of integers, including both endpoints
+ *
+ * @param number start
+ * @param number end
+ *
+ * @example
+ *
+ * const result = range(2, 4)
+ * // result === [2, 3, 4]
+ */
+export function range(start: number, end: number) {
+  if (start < 0 || end < 0) return []
+  return Array.from({ length: end + 1 }, (_, i) => i).slice(start)
+}
+
+/**
+ * Keep only a number of elements from the start of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two', 'three', 'four']
+ * const result = take(2)(words)
+ * // result === ['one', 'two']
+ */
+export function take<T>(n: number) {
+  return (arr: T[]) => (n < 0 ? arr : arr.slice(0, n))
+}
+
+/**
+ * Keep only a number of elements from the end of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two', 'three', 'four']
+ * const result = takeRight(1)(words)
+ * // result === ['four']
+ */
+export function takeRight<T>(n: number) {
+  return (arr: T[]) => (n < 0 || n > arr.length ? arr : arr.slice(arr.length - n))
 }

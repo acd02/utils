@@ -40,7 +40,16 @@ export function filterTypeGuard<T, S extends T>(func: (_: T) => _ is S) {
  * @returns Returns a function that expects the `array` to iterate over.
  */
 export function flatMap<T, U>(func: (_: T) => U) {
-  return (arr: T[]) => arr.flatMap(func)
+  return (arr: T[][]) => Array.prototype.concat(...arr).map(func)
+}
+
+/**
+ * Removes one level of nesting.
+ *
+ * @param array
+ */
+export function flatten<T>(arr: T[][]): T[] {
+  return Array.prototype.concat(...arr)
 }
 
 /**
@@ -54,6 +63,18 @@ export function flatMap<T, U>(func: (_: T) => U) {
  */
 export function reduce<T, U>(func: (acc: U, current: T) => U, initialValue: U) {
   return (arr: T[]) => arr.reduce((acc, current) => func(acc, current), initialValue)
+}
+
+/**
+ * Reverses the elements in an Array.
+ *
+ * @param array
+ *
+ */
+export function reverse<T>(arr: T[]) {
+  const copy = arr.slice()
+
+  return copy.reverse()
 }
 
 /**

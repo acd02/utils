@@ -5,9 +5,26 @@ export {
   filter,
   filterTypeGuard,
   flatMap,
+  flatten,
   includes,
   map,
   reduce,
+  reverse,
   some,
 } from './nativeArrayMethods'
-export { append, compact, head, last, prepend, sortBy, uniq, uniqBy } from './array'
+export {
+  append,
+  compact,
+  drop,
+  dropRight,
+  head,
+  last,
+  prepend,
+  prependArr,
+  sortBy,
+  take,
+  takeRight,
+  range,
+  uniq,
+  uniqBy,
+} from './array'

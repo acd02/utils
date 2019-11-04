@@ -4,6 +4,7 @@ export {
   every,
   filter,
   filterTypeGuard,
+  flatMap,
   includes,
   map,
   reduce,

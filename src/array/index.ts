@@ -6,6 +6,8 @@ export {
   filterTypeGuard,
   flatMap,
   flatten,
+  find,
+  findIndex,
   includes,
   map,
   reduce,

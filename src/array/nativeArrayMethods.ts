@@ -66,6 +66,28 @@ export function reduce<T, U>(func: (acc: U, current: T) => U, initialValue: U) {
 }
 
 /**
+ * Returns the value of the first element in the array where predicate is true,
+ * and undefined otherwise.
+ *
+ * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element value. Otherwise returns undefined.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function find<T>(func: (_: T) => boolean) {
+  return (arr: T[]) => arr.find(func)
+}
+
+/**
+ * Returns the index of the first element in the array where predicate is true,
+ * and -1 otherwise.
+ *
+ * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element index. Otherwise returns undefined.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function findIndex<T>(func: (_: T) => boolean) {
+  return (arr: T[]) => arr.findIndex(func)
+}
+
+/**
  * Reverses the elements in an Array.
  *
  * @param array

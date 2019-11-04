@@ -101,17 +101,9 @@ Change the element at the specified index, creating a new array, or returning th
 
 Returns a curried equivalent of the provided function.
 
-#### debounce
-
-Creates a debounced function that delays invoking `func` until after wait milliseconds have elapsed since the last time the debounced function was invoked.
-
 #### noop
 
 This function always returns `undefined`.
-
-#### throttle
-
-Creates a throttled function that only invokes func at most once per every wait milliseconds.
 
 ## Logic
 
@@ -156,14 +148,6 @@ doWhen(
   ([_, otherElm]) => otherElm.classList.contains('stuff'),
 )
 ```
-
-#### ifElse
-
-Creates a function that will process either the onTrue or the onFalse function depending upon the result of the condition predicate.
-
-#### when
-
-Creates a function that will process the whenTrue function if the condition predicate returns true, otherwise the argument will be returned as is.
 
 ## Object
 

@@ -5,8 +5,8 @@
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function map<T, U>(fun: (_: T) => U) {
-  return (arr: T[]) => arr.map(fun)
+export function map<T, U>(func: (_: T) => U) {
+  return (arr: T[]) => arr.map(func)
 }
 
 /**
@@ -16,8 +16,8 @@ export function map<T, U>(fun: (_: T) => U) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filter<T>(fun: (_: T) => boolean) {
-  return (arr: T[]) => arr.filter(fun)
+export function filter<T>(func: (_: T) => boolean) {
+  return (arr: T[]) => arr.filter(func)
 }
 
 /**
@@ -27,8 +27,20 @@ export function filter<T>(fun: (_: T) => boolean) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filterTypeGuard<T, S extends T>(fun: (_: T) => _ is S) {
-  return (arr: T[]) => arr.filter(fun)
+export function filterTypeGuard<T, S extends T>(func: (_: T) => _ is S) {
+  return (arr: T[]) => arr.filter(func)
+}
+
+/**
+ * Calls a defined callback function on each element of an array.
+ * Then, flattens the result into a new array.
+ * This is identical to a map followed by flat with depth 1.
+ *
+ * @param callbackfn The function invoked per iteration.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function flatMap<T, U>(func: (_: T) => U) {
+  return (arr: T[]) => arr.flatMap(func)
 }
 
 /**
@@ -40,8 +52,8 @@ export function filterTypeGuard<T, S extends T>(fun: (_: T) => _ is S) {
  * @param initialValue The initial value.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function reduce<T, U>(fun: (acc: U, current: T) => U, initialValue: U) {
-  return (arr: T[]) => arr.reduce((acc, current) => fun(acc, current), initialValue)
+export function reduce<T, U>(func: (acc: U, current: T) => U, initialValue: U) {
+  return (arr: T[]) => arr.reduce((acc, current) => func(acc, current), initialValue)
 }
 
 /**
@@ -79,8 +91,8 @@ export function every<T>(predicate: (item: T) => boolean) {
  * const result = concat(words)(otherWords)
  * // result === ['one', 'two', 'three', 'four]
  */
-export function concat<T>(arr: T[]) {
-  return (arrToConcatWith: T[]) => arr.concat(arrToConcatWith)
+export function concat<T>(originalArr: T[]) {
+  return (otherArr: T[]) => originalArr.concat(otherArr)
 }
 
 /**

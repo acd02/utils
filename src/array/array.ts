@@ -63,7 +63,7 @@ export function prependArr<T>(original: T[]) {
  * @example
  *
  * const words = ['one', 'two']
- * const udpatedWords = prepend('hello')(words)
+ * const udpatedWords = append('hello')(words)
  * // udpatedWords === ['one', 'two', 'hello']
  */
 export function append<T>(item: T) {
@@ -247,4 +247,35 @@ export function take<T>(n: number) {
  */
 export function takeRight<T>(n: number) {
   return (arr: T[]) => (n < 0 || n > arr.length ? arr : arr.slice(arr.length - n))
+}
+
+/**
+ * Sort of like flatMap.
+ *
+ * Calls a defined callback function on each element of every array
+ * nested inside another one.
+ * Then, flattens the result with depth 1.
+ *
+ * @param callbackfn The function invoked per iteration.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const nestedWords = [['one', 'two'], ['three', 'four']]
+ * const result = flatMap<string, string>(i => i.toUpperCase())(nestedWords)
+ * // result === ['ONE', 'TWO', 'THREE', 'FOUR']
+ */
+export function nestedMap<T, U>(func: (_: T) => U) {
+  return (arr: T[][]) => Array.prototype.concat(...arr).map(func)
+}
+
+/**
+ * Removes one level of nesting.
+ *
+ * @param array
+ */
+export function flatten<T>(arr: T[][]): T[]
+export function flatten<T>(arr: T[]): T[]
+export function flatten<T>(arr: T): T[] {
+  return Array.prototype.concat(...(arr as any))
 }

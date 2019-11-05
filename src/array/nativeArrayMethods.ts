@@ -32,27 +32,6 @@ export function filterTypeGuard<T, S extends T>(func: (_: T) => _ is S) {
 }
 
 /**
- * Calls a defined callback function on each element of an array.
- * Then, flattens the result into a new array.
- * This is identical to a map followed by flat with depth 1.
- *
- * @param callbackfn The function invoked per iteration.
- * @returns Returns a function that expects the `array` to iterate over.
- */
-export function flatMap<T, U>(func: (_: T) => U) {
-  return (arr: T[][]) => Array.prototype.concat(...arr).map(func)
-}
-
-/**
- * Removes one level of nesting.
- *
- * @param array
- */
-export function flatten<T>(arr: T[][]): T[] {
-  return Array.prototype.concat(...arr)
-}
-
-/**
  * Calls the specified callback function for all the elements in an array.
  * The return value of the callback function is the accumulated result,
  * and is provided as an argument in the next call to the callback function.

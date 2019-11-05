@@ -10,13 +10,15 @@ export function isDefined<T>(value: T): boolean {
  * Check whether the value is empty.
  *
  * empty means `""`, `[]` or `{}`.
+ * `undefined` and `null` will be considered empty as well.
  *
  */
 export function isEmpty<T>(value: T): boolean {
   if (isArray(value)) return !((value as unknown) as []).length
   if (isObject(value)) return !Object.keys(value).length
   if (typeof value === 'string') return !value.length
-  else return false
+  if (typeof value === 'number') return false
+  else return !value
 }
 
 /* Helpers

@@ -55,13 +55,13 @@ export function lookupAt<T>(index: number) {
  * const updatedWords = modifyAt(1, w => w.toUpperCase())(words)
  * // updatedWords === ['one', 'TWO']
  */
-export function modifyAt<T>(index: number, func: (item: T) => T) {
+export function modifyAt<T>(index: number, f: (t: T) => T) {
   return (arr: T[]) => {
     if (!arr[index]) return arr
 
     const before = arr.slice(0, index)
     const after = arr.slice(index + 1)
-    const updatedItem = func(arr[index])
+    const updatedItem = f(arr[index])
     return [...before, updatedItem, ...after]
   }
 }

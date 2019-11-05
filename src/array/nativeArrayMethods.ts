@@ -5,8 +5,8 @@
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function map<T, U>(func: (_: T) => U) {
-  return (arr: T[]) => arr.map(func)
+export function map<T, U>(f: (t: T) => U) {
+  return (arr: T[]) => arr.map(f)
 }
 
 /**
@@ -16,8 +16,8 @@ export function map<T, U>(func: (_: T) => U) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filter<T>(func: (_: T) => boolean) {
-  return (arr: T[]) => arr.filter(func)
+export function filter<T>(f: (t: T) => boolean) {
+  return (arr: T[]) => arr.filter(f)
 }
 
 /**
@@ -27,8 +27,8 @@ export function filter<T>(func: (_: T) => boolean) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filterTypeGuard<T, S extends T>(func: (_: T) => _ is S) {
-  return (arr: T[]) => arr.filter(func)
+export function filterTypeGuard<T, S extends T>(f: (t: T) => t is S) {
+  return (arr: T[]) => arr.filter(f)
 }
 
 /**
@@ -39,9 +39,14 @@ export function filterTypeGuard<T, S extends T>(func: (_: T) => _ is S) {
  * @param callbackfn The function invoked per iteration.
  * @param initialValue The initial value.
  * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two']
+ * const wordsLength = reduce<string, number>((acc, cur) => acc + cur.length, 0)(words)
  */
-export function reduce<T, U>(func: (acc: U, current: T) => U, initialValue: U) {
-  return (arr: T[]) => arr.reduce((acc, current) => func(acc, current), initialValue)
+export function reduce<T, U>(f: (acc: U, current: T) => U, initialValue: U) {
+  return (arr: T[]) => arr.reduce((acc, current) => f(acc, current), initialValue)
 }
 
 /**
@@ -51,8 +56,8 @@ export function reduce<T, U>(func: (acc: U, current: T) => U, initialValue: U) {
  * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element value. Otherwise returns undefined.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function find<T>(func: (_: T) => boolean) {
-  return (arr: T[]) => arr.find(func)
+export function find<T>(f: (t: T) => boolean) {
+  return (arr: T[]) => arr.find(f)
 }
 
 /**
@@ -62,8 +67,8 @@ export function find<T>(func: (_: T) => boolean) {
  * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element index. Otherwise returns undefined.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function findIndex<T>(func: (_: T) => boolean) {
-  return (arr: T[]) => arr.findIndex(func)
+export function findIndex<T>(f: (t: T) => boolean) {
+  return (arr: T[]) => arr.findIndex(f)
 }
 
 /**

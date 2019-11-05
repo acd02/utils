@@ -32,7 +32,7 @@
  */
 export function doWhen<T1, T2, T3, T4, T5>(
   predicateValues: [T1, T2, T3, T4, T5],
-  func: (
+  f: (
     values: [
       NonNullable<T1>,
       NonNullable<T2>,
@@ -85,7 +85,7 @@ export function doWhen<T1, T2, T3, T4, T5>(
  */
 export function doWhen<T1, T2, T3, T4>(
   predicateValues: [T1, T2, T3, T4],
-  func: (
+  f: (
     values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>],
   ) => void,
   filterFunc?: (
@@ -126,7 +126,7 @@ export function doWhen<T1, T2, T3, T4>(
  */
 export function doWhen<T1, T2, T3>(
   predicateValues: [T1, T2, T3],
-  func: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => void,
+  f: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => void,
   filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => boolean,
 ): void
 /**
@@ -163,7 +163,7 @@ export function doWhen<T1, T2, T3>(
  */
 export function doWhen<T1, T2>(
   predicateValues: [T1, T2],
-  func: (values: [NonNullable<T1>, NonNullable<T2>]) => void,
+  f: (values: [NonNullable<T1>, NonNullable<T2>]) => void,
   filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>]) => boolean,
 ): void
 /**
@@ -200,7 +200,7 @@ export function doWhen<T1, T2>(
  */
 export function doWhen<T1>(
   predicateValues: [T1],
-  func: (values: [NonNullable<T1>]) => void,
+  f: (values: [NonNullable<T1>]) => void,
   filterFunc?: (values: [NonNullable<T1>]) => boolean,
 ): void
 /**
@@ -237,14 +237,14 @@ export function doWhen<T1>(
  */
 export function doWhen<T>(
   predicateValues: T[],
-  func: (...values: NonNullable<T[]>) => void,
+  f: (...values: NonNullable<T[]>) => void,
   filterFunc?: (...values: NonNullable<T[]>) => boolean,
 ) {
   if (!predicateValues.some(v => !v)) {
     if (!!filterFunc) {
-      filterFunc(predicateValues as any) && func(predicateValues as any)
+      filterFunc(predicateValues as any) && f(predicateValues as any)
     } else {
-      func(predicateValues as any)
+      f(predicateValues as any)
     }
   }
 }

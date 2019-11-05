@@ -250,6 +250,59 @@ export function takeRight<T>(n: number) {
 }
 
 /**
+ * Creates an object composed of keys generated from the results of running
+ * each element of collection thru iteratee.
+ *
+ * The corresponding value of each key is an array of elements responsible
+ * for generating the key. The iteratee is invoked with one argument: (item).
+ *
+ * @param function A function that returns the specific key
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const items = [{ name: 'ONE', id: 1 }, { name: 'TWO', id: 2 }]
+ * const result = groupBy(i => i.name.toLowerCase())(items)
+ * // result === { one: [{ name: 'one', id: 1], two: [{ name: 'two', id: 2] }
+ */
+export function groupBy<T>(makeKey: (item: T) => string | number) {
+  return (arr: T[]) =>
+    arr.reduce<{ [key: string]: T[] }>(
+      (acc, cur, _, __, key = makeKey(cur)) => (
+        (acc[key] || (acc[key] = [])).push(cur), acc
+      ),
+      {} as { [key: string]: T[] },
+    )
+}
+
+/**
+ * Apply a function to pairs of elements at the same index in two arrays,
+ * collecting the results in a new array. If one input array is short, excess elements
+ * of the longer array are discarded.
+ *
+ *
+ * @param function A function to combine grouped values.
+ * @returns Returns a function that expects the two `array` to iterate over.
+ *
+ * @example
+ *
+ * const words = ['one', 'two', 'three']
+ * const nums = [1, 2]
+ * const result = zipWith((w, n) => w + n)(words, num)
+ * // result === ['one1', 'two2']
+ */
+export function zipWih<R, T, U>(f: (a: T, b: U) => R) {
+  return (t: T[], u: U[]) => {
+    const zip = []
+    const length = Math.min(t.length, u.length)
+    for (let i = 0; i < length; i++) {
+      zip[i] = f(t[i], u[i])
+    }
+    return zip
+  }
+}
+
+/**
  * Sort of like flatMap.
  *
  * Calls a defined callback function on each element of every array
@@ -265,8 +318,8 @@ export function takeRight<T>(n: number) {
  * const result = flatMap<string, string>(i => i.toUpperCase())(nestedWords)
  * // result === ['ONE', 'TWO', 'THREE', 'FOUR']
  */
-export function nestedMap<T, U>(func: (_: T) => U) {
-  return (arr: T[][]) => Array.prototype.concat(...arr).map(func)
+export function nestedMap<T, U>(f: (t: T) => U) {
+  return (arr: T[][]) => Array.prototype.concat(...arr).map(f)
 }
 
 /**

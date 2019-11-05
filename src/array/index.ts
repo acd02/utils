@@ -18,6 +18,7 @@ export {
   drop,
   dropRight,
   flatten,
+  groupBy,
   head,
   last,
   nestedMap,
@@ -29,4 +30,5 @@ export {
   range,
   uniq,
   uniqBy,
+  zipWih,
 } from './array'

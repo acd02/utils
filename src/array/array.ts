@@ -274,8 +274,6 @@ export function nestedMap<T, U>(func: (_: T) => U) {
  *
  * @param array
  */
-export function flatten<T>(arr: (T | T[])[]): T[]
-export function flatten<T>(arr: T[]): T[]
-export function flatten<T>(arr: T): T[] {
-  return Array.prototype.concat(...(arr as any))
+export function flatten<T>(arr: (T[][] | T[] | T)[]): T[] {
+  return Array.prototype.concat(...((arr as unknown) as T[])) as T[]
 }

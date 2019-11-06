@@ -2,8 +2,8 @@
  * Check whether the value is defined or not
  *
  */
-export function isDefined<T>(t: T): boolean {
-  return !(t === undefined || t === null)
+export function isDefined<T>(a: T): boolean {
+  return !(a === undefined || a === null)
 }
 
 /**
@@ -13,12 +13,12 @@ export function isDefined<T>(t: T): boolean {
  * `undefined` and `null` will be considered empty as well.
  *
  */
-export function isEmpty<T>(t: T): boolean {
-  if (isArray(t)) return !((t as unknown) as []).length
-  if (isObject(t)) return !Object.keys(t).length
-  if (typeof t === 'string') return !t.length
-  if (typeof t === 'number') return false
-  else return !t
+export function isEmpty<T>(a: T): boolean {
+  if (isArray(a)) return !((a as unknown) as []).length
+  if (isObject(a)) return !Object.keys(a).length
+  if (typeof a === 'string') return !a.length
+  if (typeof a === 'number') return false
+  else return !a
 }
 
 /* Helpers

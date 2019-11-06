@@ -20,10 +20,10 @@ export function noop() {
  * )(['one', 'two'])
  *
  */
-export function tap<T>(f: (t: T) => void) {
-  return (t: T) => {
-    f(t)
+export function tap<T>(f: (a: T) => void) {
+  return (a: T) => {
+    f(a)
 
-    return t
+    return a
   }
 }

@@ -1,12 +1,29 @@
 /**
- * Calls a defined callback function on each element of an array,
- * and returns an array that contains the results.
+ * Combines two arrays.
  *
- * @param callbackfn The function invoked per iteration.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param array
+ * @returns Returns a function that expects the `array` array to concatenate.
+ *
+ *  @example
+ *
+ * const nums = [1, 2]
+ * const otherNums = [3, 4]
+ * const result = concat(nums)(otherNums)
+ * // result === [1, 2, 3, 4]
  */
-export function map<T, U>(f: (t: T) => U) {
-  return (arr: T[]) => arr.map(f)
+export function concat<T>(as: T[]) {
+  return (bs: T[]) => as.concat(bs)
+}
+
+/**
+ * Determines whether all the members of an array satisfy the specified test.
+ *
+ * @param callbackfn A function that accepts one argument. The every method calls the callbackfn function for each element in the array until the callbackfn returns a value which is coercible to the Boolean value false, or until the end of the array.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ */
+export function every<T>(predicate: (a: T) => boolean) {
+  return (as: T[]) => as.every(predicate)
 }
 
 /**
@@ -16,8 +33,8 @@ export function map<T, U>(f: (t: T) => U) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filter<T>(f: (t: T) => boolean) {
-  return (arr: T[]) => arr.filter(f)
+export function filter<T>(f: (a: T) => boolean) {
+  return (as: T[]) => as.filter(f)
 }
 
 /**
@@ -27,8 +44,54 @@ export function filter<T>(f: (t: T) => boolean) {
  * @param callbackfn The function invoked per iteration.
  * @returns Returns a function that expects the `array` to iterate over.
  */
-export function filterTypeGuard<T, S extends T>(f: (t: T) => t is S) {
-  return (arr: T[]) => arr.filter(f)
+export function filterTypeGuard<T, S extends T>(f: (a: T) => a is S) {
+  return (as: T[]) => as.filter(f)
+}
+
+/**
+ * Returns the value of the first element in the array where predicate is true,
+ * and undefined otherwise.
+ *
+ * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element value. Otherwise returns undefined.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function find<T>(f: (a: T) => boolean) {
+  return (as: T[]) => as.find(f)
+}
+
+/**
+ * Returns the index of the first element in the array where predicate is true,
+ * and -1 otherwise.
+ *
+ * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element index. Otherwise returns undefined.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function findIndex<T>(f: (a: T) => boolean) {
+  return (as: T[]) => as.findIndex(f)
+}
+
+/**
+ * Determines whether an array includes a certain element,
+ * returning true or false as appropriate.
+ *
+ * @param searchElement The element to search for.
+ * @param fromIndex A second optional argument to indicate the position in this array at which to begin searching for searchElement.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ */
+export function includes<T>(a: T, fromIndex?: number) {
+  return (as: T[]) => as.includes(a, fromIndex)
+}
+
+/**
+ * Calls a defined callback function on each element of an array,
+ * and returns an array that contains the results.
+ *
+ * @param callbackfn The function invoked per iteration.
+ * @returns Returns a function that expects the `array` to iterate over.
+ */
+export function map<T, U>(f: (a: T) => U) {
+  return (as: T[]) => as.map(f)
 }
 
 /**
@@ -45,30 +108,8 @@ export function filterTypeGuard<T, S extends T>(f: (t: T) => t is S) {
  * const words = ['one', 'two']
  * const wordsLength = reduce<string, number>((acc, cur) => acc + cur.length, 0)(words)
  */
-export function reduce<T, U>(f: (acc: U, current: T) => U, initialValue: U) {
-  return (arr: T[]) => arr.reduce((acc, current) => f(acc, current), initialValue)
-}
-
-/**
- * Returns the value of the first element in the array where predicate is true,
- * and undefined otherwise.
- *
- * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element value. Otherwise returns undefined.
- * @returns Returns a function that expects the `array` to iterate over.
- */
-export function find<T>(f: (t: T) => boolean) {
-  return (arr: T[]) => arr.find(f)
-}
-
-/**
- * Returns the index of the first element in the array where predicate is true,
- * and -1 otherwise.
- *
- * @param callbackfn The function that get called once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, immediately returns that element index. Otherwise returns undefined.
- * @returns Returns a function that expects the `array` to iterate over.
- */
-export function findIndex<T>(f: (t: T) => boolean) {
-  return (arr: T[]) => arr.findIndex(f)
+export function reduce<T, U>(f: (acc: U, cur: T) => U, initial: U) {
+  return (as: T[]) => as.reduce((acc, cur) => f(acc, cur), initial)
 }
 
 /**
@@ -77,10 +118,10 @@ export function findIndex<T>(f: (t: T) => boolean) {
  * @param array
  *
  */
-export function reverse<T>(arr: T[]) {
-  const copy = arr.slice()
+export function reverse<T>(as: T[]) {
+  const cp = as.slice()
 
-  return copy.reverse()
+  return cp.reverse()
 }
 
 /**
@@ -90,47 +131,6 @@ export function reverse<T>(arr: T[]) {
  * @returns Returns a function that expects the `array` to iterate over.
  *
  */
-export function some<T>(predicate: (item: T) => boolean) {
-  return (arr: T[]) => arr.some(predicate)
-}
-
-/**
- * Determines whether all the members of an array satisfy the specified test.
- *
- * @param callbackfn A function that accepts one argument. The every method calls the callbackfn function for each element in the array until the callbackfn returns a value which is coercible to the Boolean value false, or until the end of the array.
- * @returns Returns a function that expects the `array` to iterate over.
- *
- */
-export function every<T>(predicate: (item: T) => boolean) {
-  return (arr: T[]) => arr.every(predicate)
-}
-
-/**
- * Combines two arrays.
- *
- * @param array
- * @returns Returns a function that expects the `array` array to concatenate.
- *
- *  @example
- *
- * const words = ['one', 'two']
- * const otherWords = ['three', 'four']
- * const result = concat(words)(otherWords)
- * // result === ['one', 'two', 'three', 'four]
- */
-export function concat<T>(originalArr: T[]) {
-  return (otherArr: T[]) => originalArr.concat(otherArr)
-}
-
-/**
- * Determines whether an array includes a certain element,
- * returning true or false as appropriate.
- *
- * @param searchElement The element to search for.
- * @param fromIndex A second optional argument to indicate the position in this array at which to begin searching for searchElement.
- * @returns Returns a function that expects the `array` to iterate over.
- *
- */
-export function includes<T>(searchElement: T, fromIndex?: number) {
-  return (arr: T[]) => arr.includes(searchElement, fromIndex)
+export function some<T>(predicate: (a: T) => boolean) {
+  return (as: T[]) => as.some(predicate)
 }

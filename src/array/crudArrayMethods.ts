@@ -1,4 +1,21 @@
 /**
+ * Delete the element at the specified index, creating a new array,
+ * or returning the array as is if the index is out of bounds
+ *
+ * @param number The index of the element to remove.
+ * @returns Returns a function that expects the `array` to modify.
+ */
+export function deleteAt<T>(index: number) {
+  return (as: T[]) => {
+    if (!as[index]) return as
+
+    const b = as.slice(0, index)
+    const a = as.slice(index + 1)
+    return [...b, ...a]
+  }
+}
+
+/**
  * Insert an element at the specified index, creating a new array,
  * or returning the array as is if the index is out of bounds
  *
@@ -8,18 +25,18 @@
  *
  * @example
  *
- * const words = ['one', 'two', 'three', 'four']
- * const updatedWords = insertAt(1, 'hello')(words)
- * // updatedWords === ['one, 'hello', 'two', 'three', 'four']
+ * const nums = [1, 2, 3, 4]
+ * const result = insertAt(1, 10)(nums)
+ * // result === [1, 10, 2, 3, 4]
  *
  */
-export function insertAt<T>(index: number, item: T) {
-  return (arr: T[]) => {
-    if (!arr[index]) return arr
+export function insertAt<T>(index: number, a: T) {
+  return (as: T[]) => {
+    if (!as[index]) return as
 
-    const before = arr.slice(0, index)
-    const after = arr.slice(index)
-    return [...before, item, ...after]
+    const b = as.slice(0, index)
+    const at = as.slice(index)
+    return [...b, a, ...at]
   }
 }
 
@@ -29,15 +46,10 @@ export function insertAt<T>(index: number, item: T) {
  * @param number The index of the element to read.
  * @returns Returns a function that expects the `array` to iterate over.
  *
- * @example
- *
- * const words = ['one', 'two']
- * const maybeWord = lookupAt(1)(words)
- * // maybeWord === 'two
  */
 export function lookupAt<T>(index: number) {
-  return (arr: T[]) => {
-    return arr[index] as T | undefined
+  return (as: T[]) => {
+    return as[index] as T | undefined
   }
 }
 
@@ -51,18 +63,18 @@ export function lookupAt<T>(index: number) {
  *
  * @example
  *
- * const words = ['one', 'two']
- * const updatedWords = modifyAt(1, w => w.toUpperCase())(words)
- * // updatedWords === ['one', 'TWO']
+ * const nums = [1, 2]
+ * const result = modifyAt(1, n => n * 2)(words)
+ * // result === [1, 4]
  */
-export function modifyAt<T>(index: number, f: (t: T) => T) {
-  return (arr: T[]) => {
-    if (!arr[index]) return arr
+export function modifyAt<T>(index: number, f: (a: T) => T) {
+  return (as: T[]) => {
+    if (!as[index]) return as
 
-    const before = arr.slice(0, index)
-    const after = arr.slice(index + 1)
-    const updatedItem = f(arr[index])
-    return [...before, updatedItem, ...after]
+    const b = as.slice(0, index)
+    const at = as.slice(index + 1)
+    const upd = f(as[index])
+    return [...b, upd, ...at]
   }
 }
 
@@ -76,33 +88,16 @@ export function modifyAt<T>(index: number, f: (t: T) => T) {
  *
  * @example
  *
- * const words = ['one', 'two']
- * const updatedWords = updateAt(1, 'hello')(words)
- * // updatedWords === ['one', 'hello']
+ * const nums = [1, 2]
+ * const result = updateAt(1, 10)(nums)
+ * // result === [1, 10]
  */
-export function updateAt<T>(index: number, item: T) {
-  return (arr: T[]) => {
-    if (!arr[index]) return arr
+export function updateAt<T>(index: number, a: T) {
+  return (as: T[]) => {
+    if (!as[index]) return as
 
-    const before = arr.slice(0, index)
-    const after = arr.slice(index + 1)
-    return [...before, item, ...after]
-  }
-}
-
-/**
- * Delete the element at the specified index, creating a new array,
- * or returning the array as is if the index is out of bounds
- *
- * @param number The index of the element to remove.
- * @returns Returns a function that expects the `array` to modify.
- */
-export function deleteAt<T>(index: number) {
-  return (arr: T[]) => {
-    if (!arr[index]) return arr
-
-    const before = arr.slice(0, index)
-    const after = arr.slice(index + 1)
-    return [...before, ...after]
+    const b = as.slice(0, index)
+    const at = as.slice(index + 1)
+    return [...b, a, ...at]
   }
 }

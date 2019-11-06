@@ -20,18 +20,18 @@
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T1, T2, T3, T4, T5>(
-  predicateValues: [T1, T2, T3, T4, T5],
+  maybeValues: [T1, T2, T3, T4, T5],
   f: (
     values: [
       NonNullable<T1>,
@@ -73,18 +73,18 @@ export function doWhen<T1, T2, T3, T4, T5>(
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T1, T2, T3, T4>(
-  predicateValues: [T1, T2, T3, T4],
+  maybeValues: [T1, T2, T3, T4],
   f: (
     values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>],
   ) => void,
@@ -114,18 +114,18 @@ export function doWhen<T1, T2, T3, T4>(
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T1, T2, T3>(
-  predicateValues: [T1, T2, T3],
+  maybeValues: [T1, T2, T3],
   f: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => void,
   filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]) => boolean,
 ): void
@@ -151,18 +151,18 @@ export function doWhen<T1, T2, T3>(
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T1, T2>(
-  predicateValues: [T1, T2],
+  maybeValues: [T1, T2],
   f: (values: [NonNullable<T1>, NonNullable<T2>]) => void,
   filterFunc?: (values: [NonNullable<T1>, NonNullable<T2>]) => boolean,
 ): void
@@ -188,18 +188,18 @@ export function doWhen<T1, T2>(
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T1>(
-  predicateValues: [T1],
+  maybeValues: [T1],
   f: (values: [NonNullable<T1>]) => void,
   filterFunc?: (values: [NonNullable<T1>]) => boolean,
 ): void
@@ -225,26 +225,26 @@ export function doWhen<T1>(
  *
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
+ *   otherElm.classList.add('baz')
  * })
  *
  * // with filter function
  * doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
  *   elm.style.color = '#eee'
- *   otherElm.classList.add('something')
- * }, ([_, otherElm]) => otherElm.classList.contains('stuff')) // <- filter function
+ *   otherElm.classList.add('baz')
+ * }, ([_, otherElm]) => otherElm.classList.contains('a')) // <- filter function
  *
  */
 export function doWhen<T>(
-  predicateValues: T[],
+  maybeValues: T[],
   f: (...values: NonNullable<T[]>) => void,
   filterFunc?: (...values: NonNullable<T[]>) => boolean,
 ) {
-  if (!predicateValues.some(v => !v)) {
+  if (!maybeValues.some(v => !v)) {
     if (!!filterFunc) {
-      filterFunc(predicateValues as any) && f(predicateValues as any)
+      filterFunc(maybeValues as any) && f(maybeValues as any)
     } else {
-      f(predicateValues as any)
+      f(maybeValues as any)
     }
   }
 }

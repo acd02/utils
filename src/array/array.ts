@@ -1,10 +1,207 @@
 /**
+ * Append an element to the end of an array, creating a new array
+ *
+ * @param T item to append
+ * @returns Returns a function that expects the `array` to append to.
+ *
+ * @example
+ *
+ * const nums = [1, 2]
+ * const result = append(3)(nums)
+ * // result === [1, 2, 3]
+ */
+export function append<T>(a: T) {
+  return (bs: T[]) => {
+    const copy = bs.slice()
+    copy.push(a)
+
+    return copy
+  }
+}
+
+/**
+ * Creates an array with all falsey values removed.
+ *
+ * The values false, null, "", undefined, and NaN are considered falsy.
+ * @param array The array to compact.
+ */
+export function compact<T>(as: (T | null | undefined | false | '')[]): NonNullable<T>[] {
+  return as.filter(a => {
+    if (typeof a === 'number' && a === 0) return true
+    else return Boolean(a)
+  }) as NonNullable<T>[]
+}
+
+/**
+ * Finds the set (i.e. no duplicates) of all elements in the first list
+ * not contained in the second list.
+ *
+ * @param array The array to inspect.
+ * @returns Returns a function that expects the `array` with the values
+ * to exclude.
+ *
+ * @example
+ *
+ * const nums = [1, 2, 3, 4]
+ * const otherdNums = [3, 2]
+ * const result = difference(nums)(otherNums)
+ * // result === [1, 4]
+ */
+export function difference<T>(as: T[]): (bs: T[]) => T[] {
+  return bs => as.filter(a => !bs.includes(a))
+}
+
+/**
+ * Finds the set (i.e. no duplicates) of all elements in the first list
+ * not contained in the second list.
+ * Duplication is determined according to the value returned by applying
+ * the supplied predicate to two list elements.
+ *
+ * @param function predicate.
+ * @param array The array to inspect.
+ * @returns Returns a function that expects the other `array`
+ * with the values to exclude.
+ *
+ * @example
+ *
+ * const items = [{ label: 'one', id: 1 }, { label: 'two', id: 2 }]
+ * const otherItems = [{ label: 'three', id: 3 }, { label: 'one', id: 1 }]
+ * const result = differenceBy(i => i.id, items)(otherItem)
+ * // result === [{ label: 'two', id: 2}]
+ */
+export function differenceBy<T>(f: (t: T) => string | number, as: T[]): (bs: T[]) => T[] {
+  return bs => {
+    const bsKeys = bs.map(f)
+    const cs: T[] = []
+    for (let i = 0; i < as.length; i++) {
+      !bsKeys.includes(f(as[i])) && cs.push(as[i])
+    }
+    return cs
+  }
+}
+
+/**
+ * Drop a number of elements from the start of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const nums = [1, 2, 3, 4]
+ * const result = drop(2)(nums)
+ * // result === [3, 4]
+ */
+export function drop<T>(n: number) {
+  return (as: T[]) => (n < 0 ? as : as.slice(n))
+}
+
+/**
+ * Drop a number of elements from the end of an array, creating a new array.
+ *
+ * @param number The number of elements to take.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const nums = [1, 2, 3, 4]
+ * const result = dropRigth(1)(nums)
+ * // result === [1, 2, 3]
+ */
+export function dropRight<T>(n: number) {
+  return (as: T[]) => (n < 1 ? as : as.slice(0, -n))
+}
+
+/**
+ * Removes one level of nesting.
+ *
+ * @param array
+ */
+export function flatten<T>(as: (T[][] | T[] | T)[]): T[] {
+  return Array.prototype.concat(...((as as unknown) as T[])) as T[]
+}
+
+/**
+ * Creates an object composed of keys generated from the results of running
+ * each element of collection thru iteratee.
+ *
+ * The corresponding value of each key is an array of elements responsible
+ * for generating the key. The iteratee is invoked with one argument: (item).
+ *
+ * @param function A function that returns the specific key
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const items = [{ name: 'ONE', id: 1 }, { name: 'TWO', id: 2 }]
+ * const result = groupBy(i => i.name.toLowerCase())(items)
+ * // result === { one: [{ name: 'one', id: 1], two: [{ name: 'two', id: 2] }
+ */
+export function groupBy<T>(makeKey: (a: T) => string | number) {
+  return (as: T[]) =>
+    as.reduce<{ [k: string]: T[] }>(
+      (acc, cur, _, __, k = makeKey(cur)) => ((acc[k] || (acc[k] = [])).push(cur), acc),
+      {} as { [k: string]: T[] },
+    )
+}
+
+/**
  * Get the first element in an array, or `undefined` if the array is empty.
  *
  * @param array
  */
-export function head<T>(arr: T[]): T | undefined {
-  return arr[0]
+export function head<T>(as: T[]): T | undefined {
+  return as[0]
+}
+
+/**
+ * Combines two lists into a set (i.e. no duplicates) composed
+ * of those elements common to both lists.
+ *
+ * @param array The array to inspect.
+ * @returns Returns a function that expects the other `array`
+ * to inspect.
+ *
+ * @example
+ *
+ * const nums = [1, 2, 3, 4]
+ * const otherNums = [5, 6, 2, 1]
+ * const result = intersection(nums)(otherNums)
+ * // result === [1, 2]
+ */
+export function intersection<T>(as: T[]): (bs: T[]) => T[] {
+  return bs => as.filter(a => bs.includes(a))
+}
+
+/**
+ * Combines two lists into a set (i.e. no duplicates) composed
+ * of those elements common to both lists.
+ * Duplication is determined according to the value returned by applying
+ * the supplied predicate to two list elements.
+ *
+ * @param function predicate.
+ * @param array the array to inspect.
+ * @returns Returns a function that expects the other `array` to inspect.
+ *
+ * @example
+ *
+ * const items = [{ label: 'one', id: 1 }, { label: 'two', id: 2 }]
+ * const otherItems = [{ label: 'one', id: 3 }, { label: 'one', id: 1 }]
+ * const result = intersectionBy(i => i.id, items)(otherItems)
+ * // result === [{ label: 'one', id: 1 }]
+ */
+export function intersectionBy<T>(
+  f: (t: T) => string | number,
+  as: T[],
+): (bs: T[]) => T[] {
+  return bs => {
+    const bsKeys = bs.map(f)
+    const cs: T[] = []
+    for (let i = 0; i < as.length; i++) {
+      bsKeys.includes(f(as[i])) && cs.push(as[i])
+    }
+    return cs
+  }
 }
 
 /**
@@ -12,8 +209,28 @@ export function head<T>(arr: T[]): T | undefined {
  *
  * @param array
  */
-export function last<T>(arr: T[]): T | undefined {
-  return arr[arr.length - 1]
+export function last<T>(as: T[]): T | undefined {
+  return as[as.length - 1]
+}
+
+/**
+ * Sort of like flatMap.
+ *
+ * Calls a defined callback function on each element of every array
+ * nested inside another one.
+ * Then, flattens the result with depth 1.
+ *
+ * @param callbackfn The function invoked per iteration.
+ * @returns Returns a function that expects the `array` to iterate over.
+ *
+ * @example
+ *
+ * const nestedNums = [[1, 2], [3, 4]]
+ * const result = flatMap<number, number>(i => i * 2)(nestedNums)
+ * // result === [2, 4, 6, 8]
+ */
+export function nestedMap<T, U>(f: (t: T) => U) {
+  return (as: T[][]) => Array.prototype.concat(...as).map(f)
 }
 
 /**
@@ -24,14 +241,14 @@ export function last<T>(arr: T[]): T | undefined {
  *
  * @example
  *
- * const words = ['one', 'two']
- * const udpatedWords = prepend('hello')(words)
- * // udpatedWords === ['hello', 'one', 'two']
+ * const nums = [1, 2]
+ * const result = prepend(3)(nums)
+ * // result === [3, 1, 2]
  */
-export function prepend<T>(item: T) {
-  return (arr: T[]) => {
-    const copy = arr.slice()
-    copy.unshift(item)
+export function prepend<T>(a: T) {
+  return (bs: T[]) => {
+    const copy = bs.slice()
+    copy.unshift(a)
 
     return copy
   }
@@ -45,98 +262,17 @@ export function prepend<T>(item: T) {
  *
  * @example
  *
- * const original = ['one', 'two']
- * const other = ['three', 'four']
+ * const original = [1, 2]
+ * const other = [3, 4]
  * const result = prependArr(original)(other)
- * // result ==== ['three', 'four', 'one', 'two]
+ * // result ==== [3, 4, 1, 2]
  */
-export function prependArr<T>(original: T[]) {
-  return (other: T[]) => other.concat(original)
-}
-
-/**
- * Append an element to the end of an array, creating a new array
- *
- * @param T item to append
- * @returns Returns a function that expects the `array` to append to.
- *
- * @example
- *
- * const words = ['one', 'two']
- * const udpatedWords = append('hello')(words)
- * // udpatedWords === ['one', 'two', 'hello']
- */
-export function append<T>(item: T) {
-  return (arr: T[]) => {
-    const copy = arr.slice()
-    copy.push(item)
-
-    return copy
-  }
-}
-
-/**
- * Creates an array with all falsey values removed.
- *
- * The values false, null, "", undefined, and NaN are falsey.
- * @param array The array to compact.
- */
-export function compact<T>(
-  array: (T | null | undefined | false | '')[],
-): NonNullable<T>[] {
-  return array.filter(t => {
-    if (typeof t === 'number' && t === 0) return true
-    else return Boolean(t)
-  }) as NonNullable<T>[]
-}
-
-/**
- * Creates a duplicate-free version of an array
- *
- * @param array
- */
-export function uniq<T>(arr: T[]) {
-  const uniqArray = []
-
-  for (let index = 0; index < arr.length; index++) {
-    if (uniqArray.indexOf(arr[index]) < 0) uniqArray.push(arr[index])
-  }
-
-  return uniqArray
-}
-
-/**
- * Creates a duplicate-free version of an array,
- * with uniqueness determined by specific key.
- *
- * @param function A function that returns the specific key
- * @returns Returns a function that expects the `array` to iterate over.
- *
- * @example
- *
- * const items = [{ label: 'one', value: 1 }, { label: 'two', value: 1 }]
- * const uniqByValue = uniqBy(i => i.value)(items)
- * // uniqByValue === [{ label: 'one', value: 1 }]
- */
-export function uniqBy<T>(makeKey: (item: T) => string | number) {
-  return (arr: T[]) => {
-    const uniqArray = []
-
-    const keys: (string | number)[] = []
-    for (let index = 0; index < arr.length; index++) {
-      const currentKey: string | number = makeKey(arr[index])
-      if (keys.indexOf(currentKey) < 0) {
-        keys.push(currentKey)
-        uniqArray.push(arr[index])
-      }
-    }
-
-    return uniqArray
-  }
+export function prependAll<T>(as: T[]) {
+  return (bs: T[]) => bs.concat(as)
 }
 
 type SortOption<T> = {
-  by: (item: T) => string | number
+  by: (a: T) => string | number
   reverse?: boolean
 }
 
@@ -153,12 +289,12 @@ type SortOption<T> = {
  * const sortedItems = sort(items)
  */
 export function sortBy<T>(opts: SortOption<T>[]) {
-  return (arr: T[]) => {
-    const copy = arr.slice()
+  return (as: T[]) => {
+    const cp = as.slice()
 
-    return copy.sort((a, b) => {
-      for (let index = 0; index < opts.length; index++) {
-        const { by, reverse = false } = opts[index]
+    return cp.sort((a, b) => {
+      for (let i = 0; i < opts.length; i++) {
+        const { by, reverse = false } = opts[i]
 
         if (by(a) < by(b)) return reverse ? 1 : -1
         if (by(a) > by(b)) return reverse ? -1 : 1
@@ -170,35 +306,35 @@ export function sortBy<T>(opts: SortOption<T>[]) {
 }
 
 /**
- * Drop a number of elements from the start of an array, creating a new array.
+ * Keep only a number of elements from the start of an array, creating a new array.
  *
  * @param number The number of elements to take.
  * @returns Returns a function that expects the `array` to iterate over.
  *
  * @example
  *
- * const words = ['one', 'two', 'three', 'four']
- * const result = drop(2)(words)
- * // result === ['three', 'four']
+ * const nums = [1, 2, 3, 4]
+ * const result = take(2)(nums)
+ * // result === [1, 2]
  */
-export function drop<T>(n: number) {
-  return (arr: T[]) => (n < 0 ? arr : arr.slice(n))
+export function take<T>(n: number) {
+  return (as: T[]) => (n < 0 ? as : as.slice(0, n))
 }
 
 /**
- * Drop a number of elements from the end of an array, creating a new array.
+ * Keep only a number of elements from the end of an array, creating a new array.
  *
  * @param number The number of elements to take.
  * @returns Returns a function that expects the `array` to iterate over.
  *
  * @example
  *
- * const words = ['one', 'two', 'three', 'four']
- * const result = dropRigth(1)(words)
- * // result === ['one', 'two', 'three']
+ * const nums = [1, 2, 3, 4]
+ * const result = takeRight(1)(nums)
+ * // result === [4]
  */
-export function dropRight<T>(n: number) {
-  return (arr: T[]) => (n < 1 ? arr : arr.slice(0, -n))
+export function takeRight<T>(n: number) {
+  return (as: T[]) => (n < 0 || n > as.length ? as : as.slice(as.length - n))
 }
 
 /**
@@ -218,61 +354,48 @@ export function range(start: number, end: number) {
 }
 
 /**
- * Keep only a number of elements from the start of an array, creating a new array.
+ * Creates a duplicate-free version of an array
  *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
- *
- * @example
- *
- * const words = ['one', 'two', 'three', 'four']
- * const result = take(2)(words)
- * // result === ['one', 'two']
+ * @param array
  */
-export function take<T>(n: number) {
-  return (arr: T[]) => (n < 0 ? arr : arr.slice(0, n))
+export function uniq<T>(as: T[]) {
+  const bs = []
+
+  for (let i = 0; i < as.length; i++) {
+    if (bs.indexOf(as[i]) < 0) bs.push(as[i])
+  }
+
+  return bs
 }
 
 /**
- * Keep only a number of elements from the end of an array, creating a new array.
- *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
- *
- * @example
- *
- * const words = ['one', 'two', 'three', 'four']
- * const result = takeRight(1)(words)
- * // result === ['four']
- */
-export function takeRight<T>(n: number) {
-  return (arr: T[]) => (n < 0 || n > arr.length ? arr : arr.slice(arr.length - n))
-}
-
-/**
- * Creates an object composed of keys generated from the results of running
- * each element of collection thru iteratee.
- *
- * The corresponding value of each key is an array of elements responsible
- * for generating the key. The iteratee is invoked with one argument: (item).
+ * Creates a duplicate-free version of an array,
+ * with uniqueness determined by specific key.
  *
  * @param function A function that returns the specific key
  * @returns Returns a function that expects the `array` to iterate over.
  *
  * @example
  *
- * const items = [{ name: 'ONE', id: 1 }, { name: 'TWO', id: 2 }]
- * const result = groupBy(i => i.name.toLowerCase())(items)
- * // result === { one: [{ name: 'one', id: 1], two: [{ name: 'two', id: 2] }
+ * const items = [{ label: 'one', value: 1 }, { label: 'two', value: 1 }]
+ * const uniqByValue = uniqBy(i => i.value)(items)
+ * // uniqByValue === [{ label: 'one', value: 1 }]
  */
-export function groupBy<T>(makeKey: (item: T) => string | number) {
-  return (arr: T[]) =>
-    arr.reduce<{ [key: string]: T[] }>(
-      (acc, cur, _, __, key = makeKey(cur)) => (
-        (acc[key] || (acc[key] = [])).push(cur), acc
-      ),
-      {} as { [key: string]: T[] },
-    )
+export function uniqBy<T>(makeKey: (a: T) => string | number) {
+  return (as: T[]) => {
+    const bs = []
+
+    const keys: (string | number)[] = []
+    for (let i = 0; i < as.length; i++) {
+      const k: string | number = makeKey(as[i])
+      if (keys.indexOf(k) < 0) {
+        keys.push(k)
+        bs.push(as[i])
+      }
+    }
+
+    return bs
+  }
 }
 
 /**
@@ -300,33 +423,4 @@ export function zipWih<R, T, U>(f: (a: T, b: U) => R) {
     }
     return zip
   }
-}
-
-/**
- * Sort of like flatMap.
- *
- * Calls a defined callback function on each element of every array
- * nested inside another one.
- * Then, flattens the result with depth 1.
- *
- * @param callbackfn The function invoked per iteration.
- * @returns Returns a function that expects the `array` to iterate over.
- *
- * @example
- *
- * const nestedWords = [['one', 'two'], ['three', 'four']]
- * const result = flatMap<string, string>(i => i.toUpperCase())(nestedWords)
- * // result === ['ONE', 'TWO', 'THREE', 'FOUR']
- */
-export function nestedMap<T, U>(f: (t: T) => U) {
-  return (arr: T[][]) => Array.prototype.concat(...arr).map(f)
-}
-
-/**
- * Removes one level of nesting.
- *
- * @param array
- */
-export function flatten<T>(arr: (T[][] | T[] | T)[]): T[] {
-  return Array.prototype.concat(...((arr as unknown) as T[])) as T[]
 }

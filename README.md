@@ -135,7 +135,7 @@ const maybeOtherElm = document.querySelector('.bar')
 
 doWhen([maybeElm, maybeOtherElm], ([elm, otherElm]) => {
   elm.style.color = '#eee'
-  otherElm.classList.add('something')
+  otherElm.classList.add('baz')
 })
 
 // with filter function
@@ -143,7 +143,7 @@ doWhen(
   [maybeElm, maybeOtherElm],
   ([elm, otherElm]) => {
     elm.style.color = '#eee'
-    otherElm.classList.add('something')
+    otherElm.classList.add('baz')
   },
   ([_, otherElm]) => otherElm.classList.contains('stuff'),
 )

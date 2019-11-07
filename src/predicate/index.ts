@@ -1,1 +1,1 @@
-export { isDefined, isEmpty } from './predicate'
+export { hasKey, isDefined, isEmpty } from './predicate'

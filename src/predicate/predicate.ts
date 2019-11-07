@@ -21,6 +21,14 @@ export function isEmpty<T>(a: T): boolean {
   else return !a
 }
 
+/**
+ * Check if object contains key.
+ *
+ */
+export function hasKey(k: string) {
+  return (o: object) => o.hasOwnProperty(k)
+}
+
 /* Helpers
    ========================================================================== */
 

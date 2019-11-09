@@ -271,7 +271,7 @@ export function prependAll<T>(as: T[]) {
   return (bs: T[]) => bs.concat(as)
 }
 
-type SortOption<T> = {
+type Comparator<T> = {
   by: (a: T) => string | number
   reverse?: boolean
 }
@@ -279,7 +279,7 @@ type SortOption<T> = {
 /**
  * Sorts a list according to a list of comparators.
  *
- * @param SortOptions An array of comparators.
+ * @param Comparators An array of comparators.
  * @returns Returns a function that expects the `array` to iterate over.
  *
  * @example
@@ -288,7 +288,7 @@ type SortOption<T> = {
  * const sort = sortBy([{ by: i => i.label }, { by: i => i.value, reverse: true }])
  * const sortedItems = sort(items)
  */
-export function sortBy<T>(opts: SortOption<T>[]) {
+export function sortBy<T>(opts: Comparator<T>[]) {
   return (as: T[]) => {
     const cp = as.slice()
 
@@ -378,8 +378,8 @@ export function uniq<T>(as: T[]) {
  * @example
  *
  * const items = [{ label: 'one', value: 1 }, { label: 'two', value: 1 }]
- * const uniqByValue = uniqBy(i => i.value)(items)
- * // uniqByValue === [{ label: 'one', value: 1 }]
+ * const result = uniqBy(i => i.value)(items)
+ * // result === [{ label: 'one', value: 1 }]
  */
 export function uniqBy<T>(makeKey: (a: T) => string | number) {
   return (as: T[]) => {

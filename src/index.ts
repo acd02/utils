@@ -1,11 +1,11 @@
-import * as _array from './array'
-import * as _function from './function'
-import * as _logic from './logic'
-import * as _object from './object'
-import * as _predicate from './predicate'
+import * as array from './array'
+import * as func from './function'
+import * as logic from './logic'
+import * as object from './object'
+import * as predicate from './predicate'
 
-export { _array }
-export { _function }
-export { _logic }
-export { _object }
-export { _predicate }
+export { array }
+export { func }
+export { logic }
+export { object }
+export { predicate }

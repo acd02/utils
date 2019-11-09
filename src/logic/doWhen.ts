@@ -8,7 +8,8 @@
  * inside the tuple was falsy.
  *
  * @param tuple A tuple of of potentially undefined values.
- * @param function A function that will be called with the values contained by the tuple,   only if every value is truthy.
+ * @param function A function that will be called with the values contained inside
+ * the tuple, only if every value is truthy.
  * @param function A function that will be called if at least one of the values
  * inside the tuple was falsy.
  *

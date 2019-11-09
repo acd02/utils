@@ -15,7 +15,8 @@
     "build": "npm run prettier && tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "publish-np": "np"
   },
   "peerDependencies": {},
   "husky": {

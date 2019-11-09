@@ -5,8 +5,8 @@
  * @param number The index of the element to remove.
  * @returns Returns a function that expects the `array` to modify.
  */
-export function deleteAt<T>(index: number) {
-  return (as: T[]) => {
+export function deleteAt(index: number) {
+  return <T>(as: T[]) => {
     if (!as[index]) return as
 
     const b = as.slice(0, index)
@@ -47,8 +47,8 @@ export function insertAt<T>(index: number, a: T) {
  * @returns Returns a function that expects the `array` to iterate over.
  *
  */
-export function lookupAt<T>(index: number) {
-  return (as: T[]) => {
+export function lookupAt(index: number) {
+  return <T>(as: T[]) => {
     return as[index] as T | undefined
   }
 }

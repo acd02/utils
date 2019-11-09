@@ -92,8 +92,8 @@ export function differenceBy<T>(f: (t: T) => string | number, as: T[]): (bs: T[]
  * const result = drop(2)(nums)
  * // result === [3, 4]
  */
-export function drop<T>(n: number) {
-  return (as: T[]) => (n < 0 ? as : as.slice(n))
+export function drop(n: number) {
+  return <T>(as: T[]) => (n < 0 ? as : as.slice(n))
 }
 
 /**
@@ -108,8 +108,8 @@ export function drop<T>(n: number) {
  * const result = dropRigth(1)(nums)
  * // result === [1, 2, 3]
  */
-export function dropRight<T>(n: number) {
-  return (as: T[]) => (n < 1 ? as : as.slice(0, -n))
+export function dropRight(n: number) {
+  return <T>(as: T[]) => (n < 1 ? as : as.slice(0, -n))
 }
 
 /**
@@ -317,8 +317,8 @@ export function sortBy<T>(opts: Comparator<T>[]) {
  * const result = take(2)(nums)
  * // result === [1, 2]
  */
-export function take<T>(n: number) {
-  return (as: T[]) => (n < 0 ? as : as.slice(0, n))
+export function take(n: number) {
+  return <T>(as: T[]) => (n < 0 ? as : as.slice(0, n))
 }
 
 /**
@@ -333,8 +333,8 @@ export function take<T>(n: number) {
  * const result = takeRight(1)(nums)
  * // result === [4]
  */
-export function takeRight<T>(n: number) {
-  return (as: T[]) => (n < 0 || n > as.length ? as : as.slice(as.length - n))
+export function takeRight(n: number) {
+  return <T>(as: T[]) => (n < 0 || n > as.length ? as : as.slice(as.length - n))
 }
 
 /**

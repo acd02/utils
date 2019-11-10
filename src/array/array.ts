@@ -20,7 +20,7 @@ export function append<T>(a: T) {
 }
 
 /**
- * Creates an array with all falsey values removed.
+ * Creates an array with all falsy values removed.
  *
  * The values false, null, "", undefined, and NaN are considered falsy.
  * @param array The array to compact.
@@ -288,13 +288,13 @@ type Comparator<T> = {
  * const sort = sortBy([{ by: i => i.label }, { by: i => i.value, reverse: true }])
  * const sortedItems = sort(items)
  */
-export function sortBy<T>(opts: Comparator<T>[]) {
+export function sortBy<T>(cs: Comparator<T>[]) {
   return (as: T[]) => {
     const cp = as.slice()
 
     return cp.sort((a, b) => {
-      for (let i = 0; i < opts.length; i++) {
-        const { by, reverse = false } = opts[i]
+      for (let i = 0; i < cs.length; i++) {
+        const { by, reverse = false } = cs[i]
 
         if (by(a) < by(b)) return reverse ? 1 : -1
         if (by(a) > by(b)) return reverse ? -1 : 1

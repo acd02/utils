@@ -11,7 +11,6 @@ npm install acd-utils
 Then you can import each module individually:
 
 - [array](#Array)
-- [logic](#Logic)
 - [function](#Function)
 - [object](#Object)
 - [predicate](#Predicate)
@@ -38,7 +37,7 @@ const result = append(3)(nums)
 
 #### `compact`
 
-Creates an array with all falsey values removed.
+Creates an array with all falsy values removed.
 
 _example_
 
@@ -241,6 +240,7 @@ const result = sort(items)
 Keep only a number of elements from the start of an array, creating a new array.
 
 _example_
+
 ```typescript
 const nums = [1, 2, 3, 4]
 const result = take(2)(nums)
@@ -252,6 +252,7 @@ const result = take(2)(nums)
 Keep only a number of elements from the end of an array, creating a new array.
 
 _example_
+
 ```typescript
 const nums = [1, 2, 3, 4]
 const result = takeRight(1)(nums)
@@ -263,11 +264,11 @@ const result = takeRight(1)(nums)
 Create an array containing a range of integers, including both endpoints
 
 _example_
+
 ```typescript
 const result = range(2, 4)
 // result === [2, 3, 4]
 ```
-
 
 #### `uniq`
 
@@ -299,6 +300,7 @@ Apply a function to pairs of elements at the same index in two arrays, collectin
 If one input array is short, excess elements of the longer array are discarded.
 
 _example_
+
 ```typescript
 const words = ['one', 'two', 'three']
 const nums = [1, 2]
@@ -406,36 +408,60 @@ const result = addTwo(10) // 12
 
 This function always returns `undefined`.
 
-## Logic
+#### `when`
 
-`import { logic } from 'acd-utils'`
+Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you
+to manipulate the value safely as if it was defined.
 
-#### `doWhen`
-
-Only execute the function if all the value inside the tuple are truthy.
-The function will be called with the values contained by the tuple.
-
-**arguments**
-
-- a tuple (up to 5) of potentially undefined values.
-- a function that will be called with the values contained inside the tuple.
-- optional, an orElse function the will be called if at least one of the values
-  inside the tuple was falsy.
+Sort of like a really lightweight outlaw Maybe monad (but it is not).
 
 _example_
 
 ```typescript
-const maybeElm = document.querySelector('.foo')
-const maybeOtherElm = document.querySelector('.bar')
+const word: string | undefined = undefined
+const result = when(word)
+  .filter(w => w.length > 4)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .getOrElse(() => 'hello')
+// result === 'hello'
 
-doWhen(
-  [maybeElm, maybeOtherElm],
-  ([elm, otherElm]) => {
-    elm.style.color = '#eee'
-    otherElm.classList.add('baz')
-  },
-  () => console.log('one of the element was not found'),
-)
+const otherWord: string | undefined = 'some text'
+const otherResult = when(word)
+  .filter(w => w.length > 4)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .getOrElse(() => 'hello')
+// otherResult === 'SOME TEXT!'
+```
+
+#### `whenAll`
+
+Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you
+to manipulate the values safely, as if they were all defined.
+
+If not all values are defined, only `getOrElse` will be called.
+
+Sort of like a really lightweight Maybe monad (but it is not).
+
+_example_
+
+```typescript
+const word: string | undefined = undefined
+const num: number | undefined = 1
+const result = whenAll([word, num])
+  .filter(([w]) => w.length > 4)
+  .map(([w, n]) => `${w.toUpperCase()} ${n}`)
+  .getOrElse(() => 'hello')
+// result === 'hello'
+
+const otherWord: string | undefined = 'some text'
+const otherNum: number | undefined = 1
+const otherResult = whenAll([word, num])
+  .filter(([w]) => w.length > 4)
+  .map(([w, n]) => `${w.toUpperCase()} ${n}`)
+  .getOrElse(() => 'hello')
+// otherResult === 'SOME TEXT 1'
 ```
 
 ## Object

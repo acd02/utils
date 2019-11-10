@@ -413,7 +413,7 @@ This function always returns `undefined`.
 Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you
 to manipulate the value safely as if it was defined.
 
-Sort of like a really lightweight outlaw Maybe monad (but it is not).
+Sort of like a really lightweight outlaw Maybe monad.
 
 _example_
 
@@ -442,7 +442,7 @@ to manipulate the values safely, as if they were all defined.
 
 If not all values are defined, only `getOrElse` will be called.
 
-Sort of like a really lightweight Maybe monad (but it is not).
+Sort of like a really lightweight outlaw Maybe monad.
 
 _example_
 

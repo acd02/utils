@@ -8,7 +8,6 @@ export function noop() {
 
 /**
  * Runs the given function with the supplied value, then returns the value.
- *
  * Useful for debugging when inside a `pipe` or `compose` function.
  *
  * @example

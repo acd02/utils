@@ -1,3 +1,3 @@
 export { curry } from './curry'
-export { noop } from './function'
+export { noop, tap } from './function'
 export { when, whenAll } from './when'

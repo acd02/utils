@@ -408,6 +408,21 @@ const result = addTwo(10) // 12
 
 This function always returns `undefined`.
 
+#### `tap`
+
+Runs the given function with the supplied value, then returns the value.
+Useful for debugging when inside a `pipe` or `compose` function.his function always returns `undefined`.
+
+_example_
+
+```typescript
+pipe(
+  filter(w => w !== 'one'),
+  tap(console.log), // ['two']
+  map(w => w.toUpperCase()),
+)(['one', 'two'])
+```
+
 #### `when`
 
 Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you

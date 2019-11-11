@@ -8,14 +8,22 @@ type Box<T> = {
    */
   filter: (fn: (a: NonNullable<T>) => boolean) => Box<T>
   /**
-   * a function that will be executed if the initial value was `undefined`
-   * or `null`, allowing you to return a fallback value.
+   * expects a fallback value in case of the initial value was `undefined`
+   * or `null`.
    */
-  getOrElse: (f: () => T) => T
+  getOrElse: (t: T) => T
   /**
    * returns your value.
    */
   get: () => T | undefined
+  /**
+   * Takes two functions. a first function that will get executed if the value
+   * is`undefined` or `null`, allowing you to return a fallback value.
+   *
+   * A second function that will get called with the value if defined.
+   * The result of this function will be then returned.
+   */
+  fold: <U>(onNone: () => U, onSome: (a: NonNullable<T>) => U) => U
 }
 
 /**
@@ -29,7 +37,7 @@ type Box<T> = {
  * see: https://github.com/acd02/utils#when
  *
  */
-export function when<T>(a: T, __init__ = true) {
+export function when<T>(a: T) {
   const self = {} as Box<T>
 
   function isNone(a: T) {
@@ -38,7 +46,7 @@ export function when<T>(a: T, __init__ = true) {
 
   function map<U>(fn: (arg: NonNullable<T>) => U) {
     if (isNone(a)) return when(undefined as unknown) as Box<U>
-    return when(fn(a as NonNullable<T>), false)
+    return when(fn(a as NonNullable<T>))
   }
 
   function filter(fn: (arg: NonNullable<T>) => boolean) {
@@ -46,9 +54,14 @@ export function when<T>(a: T, __init__ = true) {
     return (when(undefined) as unknown) as Box<T>
   }
 
-  function getOrElse(f: () => T): T {
-    if (isNone(a) && __init__ !== false) return f()
+  function getOrElse(t: T): T {
+    if (isNone(a)) return t
     return a
+  }
+
+  function fold<U>(onNone: () => U, onSome: (a: NonNullable<T>) => U) {
+    if (isNone(a)) return onNone()
+    return onSome(a as NonNullable<T>)
   }
 
   function get() {
@@ -59,6 +72,7 @@ export function when<T>(a: T, __init__ = true) {
   self.filter = filter
   self.getOrElse = getOrElse
   self.get = get
+  self.fold = fold
 
   return self
 }
@@ -140,7 +154,7 @@ export function whenAll<T1, T2>(as: [T1, T2]): Box<[NonNullable<T1>, NonNullable
  * see: https://github.com/acd02/utils#whenall
  *
  */
-export function whenAll<T1>(as: T1): Box<[NonNullable<T1>]>
+export function whenAll<T1>(as: [T1]): Box<[NonNullable<T1>]>
 /**
  * Wraps a tuple (up to 5 elements) containing potentially `nullable` values and
  * returns a `Box` object, allowing you

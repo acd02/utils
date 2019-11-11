@@ -423,7 +423,7 @@ const result = when(word)
   .filter(w => w.length > 4)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
-  .getOrElse(() => 'hello')
+  .getOrElse(('hello')
 // result === 'hello'
 
 const otherWord: string | undefined = 'some text'
@@ -431,7 +431,7 @@ const otherResult = when(word)
   .filter(w => w.length > 4)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
-  .getOrElse(() => 'hello')
+  .getOrElse(('hello')
 // otherResult === 'SOME TEXT!'
 ```
 
@@ -452,7 +452,7 @@ const num: number | undefined = 1
 const result = whenAll([word, num])
   .filter(([w]) => w.length > 4)
   .map(([w, n]) => `${w.toUpperCase()} ${n}`)
-  .getOrElse(() => 'hello')
+  .getOrElse('hello')
 // result === 'hello'
 
 const otherWord: string | undefined = 'some text'
@@ -460,7 +460,7 @@ const otherNum: number | undefined = 1
 const otherResult = whenAll([word, num])
   .filter(([w]) => w.length > 4)
   .map(([w, n]) => `${w.toUpperCase()} ${n}`)
-  .getOrElse(() => 'hello')
+  .getOrElse(('hello')
 // otherResult === 'SOME TEXT 1'
 ```
 

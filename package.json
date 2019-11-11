@@ -1,7 +1,7 @@
 {
   "name": "acd-utils",
   "repository": "github:acd02/utils",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "license": "MIT",
   "author": "acd02",
   "main": "dist/index.js",

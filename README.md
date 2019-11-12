@@ -14,6 +14,8 @@ Then you can import each module individually:
 - [function](#Function)
 - [object](#Object)
 - [predicate](#Predicate)
+- [result](#Result)
+- [when](#When)
 
 ## Array
 

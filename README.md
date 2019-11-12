@@ -439,6 +439,8 @@ The first type is used for failure (E), the second for success (S).
 
 Sort of like a really really lightweight outlaw Result monad.
 
+_example_
+
 ```typescript
 type Item = {
   id: number

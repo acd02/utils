@@ -68,8 +68,14 @@ Duplication is determined according to the value returned by applying the suppli
 _example_
 
 ```typescript
-const items = [{ label: 'one', id: 1 }, { label: 'two', id: 2 }]
-const otherItems = [{ label: 'three', id: 3 }, { label: 'one', id: 1 }]
+const items = [
+  { label: 'one', id: 1 },
+  { label: 'two', id: 2 },
+]
+const otherItems = [
+  { label: 'three', id: 3 },
+  { label: 'one', id: 1 },
+]
 const result = differenceBy(i => i.id, items)(otherItem)
 // result === [{ label: 'two', id: 2}]
 ```
@@ -121,7 +127,10 @@ for generating the key. The iteratee is invoked with one argument: (item).
 _example_
 
 ```typescript
-const items = [{ name: 'ONE', id: 1 }, { name: 'TWO', id: 2 }]
+const items = [
+  { name: 'ONE', id: 1 },
+  { name: 'TWO', id: 2 },
+]
 const result = groupBy(i => i.name.toLowerCase())(items)
 // result === { one: [{ name: 'one', id: 1], two: [{ name: 'two', id: 2] }
 ```
@@ -159,8 +168,14 @@ Duplication is determined according to the value returned by applying the suppli
 _example_
 
 ```typescript
-const items = [{ label: 'one', id: 1 }, { label: 'two', id: 2 }]
-const otherItems = [{ label: 'one', id: 3 }, { label: 'one', id: 1 }]
+const items = [
+  { label: 'one', id: 1 },
+  { label: 'two', id: 2 },
+]
+const otherItems = [
+  { label: 'one', id: 3 },
+  { label: 'one', id: 1 },
+]
 const result = intersectionBy(i => i.id, items)(otherItems)
 // result === [{ label: 'one', id: 1 }]
 ```
@@ -187,7 +202,10 @@ Then, flattens the result with depth 1.
 _example_
 
 ```typescript
-const nestedNums = [[1, 2], [3, 4]]
+const nestedNums = [
+  [1, 2],
+  [3, 4],
+]
 const result = flatMap<number, number>(i => i * 2)(nestedNums)
 // result === [2, 4, 6, 8]
 ```
@@ -289,7 +307,10 @@ Creates a duplicate-free version of an array, with uniqueness determined by spec
 _example_
 
 ```typescript
-const items = [{ label: 'one', value: 1 }, { label: 'two', value: 1 }]
+const items = [
+  { label: 'one', value: 1 },
+  { label: 'two', value: 1 },
+]
 const result = uniqBy(i => i.value)(items)
 // result === [{ label: 'one', value: 1 }]
 ```
@@ -406,6 +427,45 @@ pipe(
   tap(console.log), // ['two']
   map(w => w.toUpperCase()),
 )(['one', 'two'])
+```
+
+#### `result`
+
+Wraps a value of one of two possible types (Result) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/function/result.ts#L1) object
+allowing you to unfold the value to handle both cases.
+
+An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.
+The first type is used for failure (E), the second for success (S).
+
+Sort of like a really really lightweight outlaw Result monad.
+
+```typescript
+type Item = {
+  id: number
+  label: string
+}
+
+type Error = {
+  code: number
+}
+
+function setData<T>(value: T) {
+  data = value
+}
+
+const data: Result<Error, Item[]>
+
+// the ok function returns an `Ok`
+// the err function returns an `Err`
+
+fetch('someapi')
+  .then((res: User[]) => setData(ok(res)))
+  .catch((e: Error) => setData(err(e)))
+
+result(data).fold(
+  e => `the error code is ${e.code}`,
+  users => `the data is ${JSON.stringify(users, null, 2)}`,
+)
 ```
 
 #### `when`

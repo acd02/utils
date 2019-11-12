@@ -1,3 +1,13 @@
+type ResultBox<E, S> = {
+  /**
+   * Takes two functions. a first function that will get executed if the value
+   * is an `Err`, and a second function, that will get executed if the value
+   * is an `Ok`.
+   *
+   */
+  fold<U>(onErr: (a: E) => U, onSuccess: (a: S) => U): U
+}
+
 interface Err<E> {
   readonly _tag_: 'Err'
   readonly err: E
@@ -9,16 +19,6 @@ interface Ok<S> {
 }
 
 export type Result<E, S> = Err<E> | Ok<S>
-
-type ResultBox<E, S> = {
-  /**
-   * Takes two functions. a first function that will get executed if the value
-   * is an `Err`, and a second function, that will get executed if the value
-   * is an `Ok`.
-   *
-   */
-  fold<U>(onErr: (a: E) => U, onSuccess: (a: S) => U): U
-}
 
 export function err<E = never, A = never>(e: E): Result<E, A> {
   return { _tag_: 'Err', err: e }

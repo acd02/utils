@@ -389,21 +389,6 @@ const result = updateAt(2, 20)(nums)
 
 `import { func } from 'acd-utils'`
 
-#### `curry`
-
-Returns a curried equivalent of the provided function.
-
-_example_
-
-```typescript
-function add(a: number, b: number) {
-  return a + b
-}
-const curriedAdd = curry(add)
-const addTwo = curriedAdd(2)
-const result = addTwo(10) // 12
-```
-
 #### `noop`
 
 This function always returns `undefined`.

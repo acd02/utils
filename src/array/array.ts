@@ -2,7 +2,7 @@
  * Append an element to the end of an array, creating a new array
  *
  * @param T item to append
- * @returns Returns a function that expects the `array` to append to.
+ * @returns Returns a function that expects the `array` to append to
  *
  * @example
  *
@@ -23,7 +23,7 @@ export function append<T>(a: T) {
  * Creates an array with all falsy values removed.
  *
  * The values false, null, "", undefined, and NaN are considered falsy.
- * @param array The array to compact.
+ * @param array The array to compact
  */
 export function compact<T>(as: (T | null | undefined | false | '')[]): NonNullable<T>[] {
   return as.filter(a => {
@@ -36,9 +36,9 @@ export function compact<T>(as: (T | null | undefined | false | '')[]): NonNullab
  * Finds the set (i.e. no duplicates) of all elements in the first list
  * not contained in the second list.
  *
- * @param array The array to inspect.
+ * @param array The array to inspect
  * @returns Returns a function that expects the `array` with the values
- * to exclude.
+ * to exclude
  *
  * @example
  *
@@ -57,10 +57,10 @@ export function difference<T>(as: T[]): (bs: T[]) => T[] {
  * Duplication is determined according to the value returned by applying
  * the supplied predicate to two list elements.
  *
- * @param function predicate.
- * @param array The array to inspect.
+ * @param function predicate
+ * @param array The array to inspect
  * @returns Returns a function that expects the other `array`
- * with the values to exclude.
+ * with the values to exclude
  *
  * @example
  *
@@ -83,8 +83,8 @@ export function differenceBy<T>(f: (t: T) => string | number, as: T[]): (bs: T[]
 /**
  * Drop a number of elements from the start of an array, creating a new array.
  *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param number The number of elements to take
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -99,8 +99,8 @@ export function drop(n: number) {
 /**
  * Drop a number of elements from the end of an array, creating a new array.
  *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param number The number of elements to take
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -129,7 +129,7 @@ export function flatten<T>(as: (T[][] | T[] | T)[]): T[] {
  * for generating the key. The iteratee is invoked with one argument: (item).
  *
  * @param function A function that returns the specific key
- * @returns Returns a function that expects the `array` to iterate over.
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -158,9 +158,9 @@ export function head<T>(as: T[]): T | undefined {
  * Combines two lists into a set (i.e. no duplicates) composed
  * of those elements common to both lists.
  *
- * @param array The array to inspect.
+ * @param array The array to inspect
  * @returns Returns a function that expects the other `array`
- * to inspect.
+ * to inspect
  *
  * @example
  *
@@ -179,9 +179,9 @@ export function intersection<T>(as: T[]): (bs: T[]) => T[] {
  * Duplication is determined according to the value returned by applying
  * the supplied predicate to two list elements.
  *
- * @param function predicate.
- * @param array the array to inspect.
- * @returns Returns a function that expects the other `array` to inspect.
+ * @param function predicate
+ * @param array the array to inspect
+ * @returns Returns a function that expects the other `array` to inspect
  *
  * @example
  *
@@ -220,8 +220,8 @@ export function last<T>(as: T[]): T | undefined {
  * nested inside another one.
  * Then, flattens the result with depth 1.
  *
- * @param callbackfn The function invoked per iteration.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param callbackfn The function invoked per iteration
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -237,7 +237,7 @@ export function nestedMap<T, U>(f: (t: T) => U) {
  * Attaches an element to the front of an array, creating a new array.
  *
  * @param T item to prepend
- * @returns Returns a function that expects the `array` to prepend to.
+ * @returns Returns a function that expects the `array` to prepend to
  *
  * @example
  *
@@ -257,8 +257,8 @@ export function prepend<T>(a: T) {
 /**
  * Attaches an array to the front of another array, creating a new array.
  *
- * @param array original array.
- * @returns Returns a function that expects the `array` that will be attached to the original array.
+ * @param array original array
+ * @returns Returns a function that expects the `array` that will be attached to the original array
  *
  * @example
  *
@@ -271,16 +271,16 @@ export function prependAll<T>(as: T[]) {
   return (bs: T[]) => bs.concat(as)
 }
 
-type Comparator<T> = {
+type SortIteratee<T> = {
   by: (a: T) => string | number
   reverse?: boolean
 }
 
 /**
- * Sorts a list according to a list of comparators.
+ * Sorts a list according to a list of iteratees.
  *
- * @param Comparators An array of comparators.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param SortIteratees An array of iteratees
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -288,7 +288,7 @@ type Comparator<T> = {
  * const sort = sortBy([{ by: i => i.label }, { by: i => i.value, reverse: true }])
  * const sortedItems = sort(items)
  */
-export function sortBy<T>(cs: Comparator<T>[]) {
+export function sortBy<T>(cs: SortIteratee<T>[]) {
   return (as: T[]) => {
     const cp = as.slice()
 
@@ -308,8 +308,8 @@ export function sortBy<T>(cs: Comparator<T>[]) {
 /**
  * Keep only a number of elements from the start of an array, creating a new array.
  *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param number The number of elements to take
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -324,8 +324,8 @@ export function take(n: number) {
 /**
  * Keep only a number of elements from the end of an array, creating a new array.
  *
- * @param number The number of elements to take.
- * @returns Returns a function that expects the `array` to iterate over.
+ * @param number The number of elements to take
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -373,7 +373,7 @@ export function uniq<T>(as: T[]) {
  * with uniqueness determined by specific key.
  *
  * @param function A function that returns the specific key
- * @returns Returns a function that expects the `array` to iterate over.
+ * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
@@ -404,8 +404,8 @@ export function uniqBy<T>(makeKey: (a: T) => string | number) {
  * of the longer array are discarded.
  *
  *
- * @param function A function to combine grouped values.
- * @returns Returns a function that expects the two `array` to iterate over.
+ * @param function A function to combine grouped values
+ * @returns Returns a function that expects the two `array` to iterate over
  *
  * @example
  *

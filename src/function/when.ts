@@ -13,7 +13,7 @@ type Box<T> = {
    */
   getOrElse: (t: T) => T
   /**
-   * returns your value.
+   * returns your value
    */
   get: () => T | undefined
   /**
@@ -30,8 +30,8 @@ type Box<T> = {
  * Wraps a potentially `nullable` value and returns a `Box` object, allowing you
  * to manipulate the value safely as if it was defined.
  *
- * @param value A potentially nullable value.
- * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
+ * @param value A potentially nullable value
+ * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
  * @example
  * see: https://github.com/acd02/utils#when
@@ -83,7 +83,7 @@ export function when<T>(a: T) {
  * to manipulate the values safely, as if there were all defined.
  * If not all values are defined, only `getOrElse` will be called.
  *
- * @param tuple A tuple (array) containing potentially nullable values.
+ * @param tuple A tuple (array) containing potentially nullable values
  * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
  *
  * @example
@@ -101,8 +101,8 @@ export function whenAll<T1, T2, T3, T4, T5>(
  * to manipulate the values safely, as if they were all defined.
  * If not all values are defined, only `getOrElse` will be called.
  *
- * @param tuple A tuple (array) containing potentially nullable values.
- * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
+ * @param tuple A tuple (array) containing potentially nullable values
+ * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
  * @example
  * see: https://github.com/acd02/utils#whenall
@@ -133,8 +133,8 @@ export function whenAll<T1, T2, T3>(
  * to manipulate the values safely, as if there were all defined.
  * If not all values are defined, only `getOrElse` will be called.
  *
- * @param tuple A tuple (array) containing potentially nullable values.
- * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
+ * @param tuple A tuple (array) containing potentially nullable values
+ * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
  * @example
  * see: https://github.com/acd02/utils#whenall
@@ -148,7 +148,7 @@ export function whenAll<T1, T2>(as: [T1, T2]): Box<[NonNullable<T1>, NonNullable
  * If not all values are defined, only `getOrElse` will be called.
  *
  * @param tuple A tuple (array) containing potentially nullable values.
- * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
+ * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
  * @example
  * see: https://github.com/acd02/utils#whenall
@@ -162,7 +162,7 @@ export function whenAll<T1>(as: [T1]): Box<[NonNullable<T1>]>
  * If not all values are defined, only `getOrElse` will be called.
  *
  * @param tuple A tuple (array) containing potentially nullable values.
- * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
+ * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
  * @example
  * see: https://github.com/acd02/utils#whenall

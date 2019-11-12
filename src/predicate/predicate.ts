@@ -1,5 +1,5 @@
 /**
- * Check whether the value is defined or not
+ * Check whether the value is defined or not.
  *
  */
 export function isDefined<T>(a: T): boolean {
@@ -33,7 +33,7 @@ export function hasKey(k: string) {
    ========================================================================== */
 
 /**
- * Check if value is of type `[]`
+ * Check if value is of type `[]`.
  *
  */
 function isArray(x: any): boolean {
@@ -41,7 +41,7 @@ function isArray(x: any): boolean {
 }
 
 /**
- * Check if value is of type `{}`
+ * Check if value is of type `{}`.
  *
  */
 function isObject(x: any) {

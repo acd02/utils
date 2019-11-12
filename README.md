@@ -625,6 +625,11 @@ const otherResult = whenAll([word, num])
 
 ---
 
+This collection was inspired by:
+- [lodash](https://lodash.com/)
+- [fp-ts](https://github.com/gcanti/fp-ts)
+- [space-lift](https://github.com/AlexGalays/spacelift)
+
 # TSDX Bootstrap
 
 This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).

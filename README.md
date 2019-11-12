@@ -429,6 +429,100 @@ pipe(
 )(['one', 'two'])
 ```
 
+## Object
+
+`import { object } from 'acd-utils'`
+
+#### `objectKeys`
+
+Preserves the type of the array returned by `Object.keys`
+
+_example_
+
+```typescript
+const item = {
+  label: 'ten',
+  id: 10,
+  isCool: true,
+}
+
+const keys = objectKeys(item)
+// const keys: ("label" | "id" | "isCool")[]
+```
+
+#### `omitKeys`
+
+Returns a partial copy of an object omitting the keys specified.
+
+_example_:
+
+```typescript
+const item = {
+  label: 'ten',
+  id: 10,
+  isCool: true,
+}
+
+const updatedItem = omitKeys(item, 'label', 'isCool')
+// updatedItem === { id: 10 }
+```
+
+## Predicate
+
+`import { predicate } from 'acd-utils'`
+
+#### `isDefined`
+
+Check whether the value is defined or not
+
+#### `isEmpty`
+
+Check if the value is empty.
+
+empty means `""`, `[]` or `{}`.
+
+`undefined` or `null` will also be considered as empty.
+
+## Result
+
+`import { err, ok, result, Result } from 'acd-utils'`
+
+#### `err`
+
+Returns an `Err`
+
+_example_
+
+```typescript
+type Error = {
+  code: number
+}
+
+const error: Error = {
+  code: 400,
+}
+
+const err: Err = err(error)
+```
+
+#### `ok`
+
+Returns an `Ok`
+
+_example_
+
+```typescript
+type Data = {
+  values: number[]
+}
+
+const data: data = {
+  values: [1, 2],
+}
+
+const success: Ok = ok(data)
+```
+
 #### `result`
 
 Wraps a value of one of two possible types (Result) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/function/result.ts#L1) object
@@ -457,9 +551,6 @@ function setData<T>(value: T) {
 
 const data: Result<Error, Item[]>
 
-// the ok function returns an `Ok`
-// the err function returns an `Err`
-
 fetch('someapi')
   .then((res: User[]) => setData(ok(res)))
   .catch((e: Error) => setData(err(e)))
@@ -469,6 +560,10 @@ result(data).fold(
   users => `the data is ${JSON.stringify(users, null, 2)}`,
 )
 ```
+
+## When
+
+`import { when, whenAll } from 'acd-utils'`
 
 #### `when`
 
@@ -525,60 +620,6 @@ const otherResult = whenAll([word, num])
   .getOrElse(('hello')
 // otherResult === 'SOME TEXT 1'
 ```
-
-## Object
-
-`import { object } from 'acd-utils'`
-
-#### `objectKeys`
-
-Preserves the type of the array returned by `Object.keys`
-
-_example_
-
-```typescript
-const item = {
-  label: 'ten',
-  id: 10,
-  isCool: true,
-}
-
-const keys = objectKeys(item)
-// const keys: ("label" | "id" | "isCool")[]
-```
-
-#### `omitKeys`
-
-Returns a partial copy of an object omitting the keys specified.
-
-_example_:
-
-```typescript
-const item = {
-  label: 'ten',
-  id: 10,
-  isCool: true,
-}
-
-const updatedItem = omitKeys(item, 'label', 'isCool')
-// updatedItem === { id: 10 }
-```
-
-## Predicate
-
-`import { predicate } from 'acd-utils'`
-
-#### `isDefined`
-
-Check whether the value is defined or not
-
-#### `isEmpty`
-
-Check if the value is empty.
-
-empty means `""`, `[]` or `{}`.
-
-`undefined` or `null` will also be considered as empty.
 
 ---
 

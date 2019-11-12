@@ -518,7 +518,7 @@ type Data = {
   values: number[]
 }
 
-const data: data = {
+const data: Data = {
   values: [1, 2],
 }
 
@@ -554,12 +554,12 @@ function setData<T>(value: T) {
 const data: Result<Error, Item[]>
 
 fetch('someapi')
-  .then((res: User[]) => setData(ok(res)))
+  .then((res: Item[]) => setData(ok(res)))
   .catch((e: Error) => setData(err(e)))
 
 result(data).fold(
   e => `the error code is ${e.code}`,
-  users => `the data is ${JSON.stringify(users, null, 2)}`,
+  items => `the data is ${JSON.stringify(items, null, 2)}`,
 )
 ```
 

@@ -48,7 +48,11 @@ export function compact<T>(as: (T | null | undefined | false | '')[]): NonNullab
  * // result === [1, 4]
  */
 export function difference<T>(as: T[]): (bs: T[]) => T[] {
-  return bs => as.filter(a => !bs.includes(a))
+  return bs => {
+    const s = new Set(bs)
+
+    return as.filter(a => !s.has(a))
+  }
 }
 
 /**
@@ -71,12 +75,9 @@ export function difference<T>(as: T[]): (bs: T[]) => T[] {
  */
 export function differenceBy<T>(f: (t: T) => string | number, as: T[]): (bs: T[]) => T[] {
   return bs => {
-    const bsKeys = bs.map(f)
-    const cs: T[] = []
-    for (let i = 0; i < as.length; i++) {
-      !bsKeys.includes(f(as[i])) && cs.push(as[i])
-    }
-    return cs
+    const s = new Set(bs.map(f))
+
+    return as.filter(a => !s.has(f(a)))
   }
 }
 
@@ -170,7 +171,11 @@ export function head<T>(as: T[]): T | undefined {
  * // result === [1, 2]
  */
 export function intersection<T>(as: T[]): (bs: T[]) => T[] {
-  return bs => as.filter(a => bs.includes(a))
+  return bs => {
+    const s = new Set(bs)
+
+    return as.filter(a => s.has(a))
+  }
 }
 
 /**
@@ -195,12 +200,9 @@ export function intersectionBy<T>(
   as: T[],
 ): (bs: T[]) => T[] {
   return bs => {
-    const bsKeys = bs.map(f)
-    const cs: T[] = []
-    for (let i = 0; i < as.length; i++) {
-      bsKeys.includes(f(as[i])) && cs.push(as[i])
-    }
-    return cs
+    const s = new Set(bs.map(f))
+
+    return as.filter(a => s.has(f(a)))
   }
 }
 
@@ -221,7 +223,7 @@ export function last<T>(as: T[]): T | undefined {
  * Then, flattens the result with depth 1.
  *
  * @param callbackfn The function invoked per iteration
- * @returns Returns a function that expects the `array` to iterate over
+ * @returns Returns a function that expects an `array` (`T[][]`) to iterate over
  *
  * @example
  *
@@ -271,7 +273,23 @@ export function prependAll<T>(as: T[]) {
   return (bs: T[]) => bs.concat(as)
 }
 
-type SortIteratee<T> = {
+/**
+ * Create an array containing a range of integers, including both endpoints
+ *
+ * @param number start
+ * @param number end
+ *
+ * @example
+ *
+ * const result = range(2, 4)
+ * // result === [2, 3, 4]
+ */
+export function range(start: number, end: number) {
+  if (start < 0 || end < 0) return []
+  return Array.from({ length: end + 1 }, (_, i) => i).slice(start)
+}
+
+type SortRecord<T> = {
   by: (a: T) => string | number
   reverse?: boolean
 }
@@ -279,16 +297,16 @@ type SortIteratee<T> = {
 /**
  * Sorts a list according to a list of iteratees.
  *
- * @param SortIteratees An array of iteratees
+ * @param sortRecords `{ by: (a: T) => string | number; reverse?: boolean }[]`
  * @returns Returns a function that expects the `array` to iterate over
  *
  * @example
  *
  * const items = [{ label: 'one', value: 1 }, { label: 'two', value: 2 }]
  * const sort = sortBy([{ by: i => i.label }, { by: i => i.value, reverse: true }])
- * const sortedItems = sort(items)
+ * const result = sort(items)
  */
-export function sortBy<T>(cs: SortIteratee<T>[]) {
+export function sortBy<T>(cs: SortRecord<T>[]) {
   return (as: T[]) => {
     const cp = as.slice()
 
@@ -338,34 +356,12 @@ export function takeRight(n: number) {
 }
 
 /**
- * Create an array containing a range of integers, including both endpoints
- *
- * @param number start
- * @param number end
- *
- * @example
- *
- * const result = range(2, 4)
- * // result === [2, 3, 4]
- */
-export function range(start: number, end: number) {
-  if (start < 0 || end < 0) return []
-  return Array.from({ length: end + 1 }, (_, i) => i).slice(start)
-}
-
-/**
  * Creates a duplicate-free version of an array
  *
  * @param array
  */
 export function uniq<T>(as: T[]) {
-  const bs = []
-
-  for (let i = 0; i < as.length; i++) {
-    if (bs.indexOf(as[i]) < 0) bs.push(as[i])
-  }
-
-  return bs
+  return Array.from(new Set(as))
 }
 
 /**

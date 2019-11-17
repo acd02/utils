@@ -14,8 +14,9 @@
     "start": "tsdx watch",
     "build": "npm run prettier && tsdx build",
     "test": "tsdx test",
+    "test:watch": "tsdx test --watch",
     "lint": "tsdx lint",
-    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prettier": "prettier --config ./.prettierrc.json --write \"{src,test}/**/*.{ts,tsx}\"",
     "publish-np": "npm run build && np"
   },
   "peerDependencies": {},

@@ -22,16 +22,18 @@ const items: Item[] = [
 ]
 const nums = [1, 2, 3, 4, 5, 6, 7, 8]
 
-const mockedItems = jest.fn().mockReturnValue([
-  { label: 'one', id: 1 },
-  { label: 'two', id: 2 },
-  { label: 'three', id: 3 },
-  { label: 'four', id: 4 },
-  { label: 'five', id: 5 },
-  { label: 'six', id: 6 },
-  { label: 'seven', id: 7 },
-  { label: 'eight', id: 8 },
-])()
+const mockedItems = jest
+  .fn()
+  .mockReturnValue([
+    { label: 'one', id: 1 },
+    { label: 'two', id: 2 },
+    { label: 'three', id: 3 },
+    { label: 'four', id: 4 },
+    { label: 'five', id: 5 },
+    { label: 'six', id: 6 },
+    { label: 'seven', id: 7 },
+    { label: 'eight', id: 8 },
+  ])()
 const mockedNums = jest.fn().mockReturnValue([1, 2, 3, 4, 5, 6, 7, 8])()
 
 afterEach(() => {
@@ -123,9 +125,7 @@ describe('modifyAt', () => {
 
 describe('updateAt', () => {
   it('should change the element at the specified index, creating a new array,', () => {
-    expect(
-      updateAt<Item>(2, { id: 100, label: 'extra' })(items),
-    ).toEqual([
+    expect(updateAt<Item>(2, { id: 100, label: 'extra' })(items)).toEqual([
       { label: 'one', id: 1 },
       { label: 'two', id: 2 },
       { label: 'extra', id: 100 },
@@ -139,9 +139,7 @@ describe('updateAt', () => {
   })
 
   it('should return the array as is if the index is out of bounds.', () => {
-    expect(
-      updateAt<Item>(12, { id: 100, label: 'extra' })(items),
-    ).toEqual(items)
+    expect(updateAt<Item>(12, { id: 100, label: 'extra' })(items)).toEqual(items)
     expect(updateAt<number>(-1, 100)(nums)).toEqual(nums)
   })
 })

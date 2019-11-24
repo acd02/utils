@@ -17,7 +17,7 @@ export function isEmpty<T>(a: T): boolean {
   if (isArray(a)) return !((a as unknown) as []).length
   if (isObject(a)) return !Object.keys(a).length
   if (typeof a === 'string') return !a.length
-  if (typeof a === 'number') return false
+  if (typeof a === 'number' || typeof a === 'boolean') return false
   else return !a
 }
 

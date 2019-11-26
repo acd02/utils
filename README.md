@@ -489,6 +489,10 @@ empty means `""`, `[]` or `{}`.
 
 `import { err, ok, result, Result } from 'acd-utils'`
 
+```typescript
+type Result<E, S> = Err<E> | Ok<S>
+```
+
 #### `err`
 
 Returns an `Err`
@@ -527,13 +531,19 @@ const success: Ok = ok(data)
 
 #### `result`
 
-Wraps a value of one of two possible types (Result) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/function/result.ts#L1) object
+Wraps a value of one of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/index.ts#L1) object
 allowing you to unfold the value to handle both cases.
 
 An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.
 The first type is used for failure (E), the second for success (S).
 
 Sort of like a really really lightweight outlaw Result monad.
+
+Methods available on the `ResultBox` object are:
+
+- `fold`, takes two functions
+  - a first function that will get executed if the value is an `Err`
+  - a second function, that will get executed if the value is an `Ok`
 
 _example_
 
@@ -569,10 +579,20 @@ result(data).fold(
 
 #### `when`
 
-Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you
+Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/index.ts#L1) object, allowing you
 to manipulate the value safely as if it was defined.
 
 Sort of like a really lightweight outlaw Maybe monad.
+
+Methods available on the `Box` object are:
+
+- `map`, takes your value as an argument, allowing you to update it safely
+- `filter`, takes your value as an argument, allowing you to return a predicate
+- `fold`, takes two functions
+  - a first function that will get executed if the value is `undefined` or `null`, allowing you to return a fallback value.
+  - a second function that will get called with the value if defined. The result of this function will be then returned.
+- `getOrElse`, expects a fallback value in case of the initial value was `undefined` or `null`
+- `get`, returns your value.
 
 _example_
 
@@ -596,12 +616,21 @@ const otherResult = when(word)
 
 #### `whenAll`
 
-Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/function/when.ts#L1) object, allowing you
-to manipulate the values safely, as if they were all defined.
+Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/index.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
 
-If not all values are defined, only `getOrElse` will be called.
+For the `map` method, or the second function of the `fold` method to be executed, all values inside the tuple must be truthy.
 
 Sort of like a really lightweight outlaw Maybe monad.
+
+Methods available on the `Box` object are:
+
+- `map`, takes your value as an argument, allowing you to update it safely
+- `filter`, takes your value as an argument, allowing you to return a predicate
+- `fold`, takes two functions
+  - a first function that will get executed if the value is `undefined` or `null`, allowing you to return a fallback value.
+  - a second function that will get called with the value if defined. The result of this function will be then returned.
+- `getOrElse`, expects a fallback value in case of the initial value was `undefined` or `null`
+- `get`, returns your value.
 
 _example_
 
@@ -626,6 +655,7 @@ const otherResult = whenAll([word, num])
 ---
 
 This collection was inspired by:
+
 - [lodash](https://lodash.com/)
 - [fp-ts](https://github.com/gcanti/fp-ts)
 - [space-lift](https://github.com/AlexGalays/spacelift)

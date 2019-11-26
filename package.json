@@ -15,7 +15,7 @@
     "build": "npm run prettier && tsdx build",
     "test": "tsdx test",
     "test:watch": "tsdx test --watch",
-    "test:coverage": "tsdx test --coverage",
+    "test:coverage": "tsdx test --coverage --collectCoverageFrom='src/**/*.ts' --collectCoverageFrom='!src/**/index.ts'",
     "lint": "tsdx lint",
     "prettier": "prettier --config ./.prettierrc.json --write \"{src,test}/**/*.{ts,tsx}\"",
     "publish-np": "npm run build && np"

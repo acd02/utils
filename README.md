@@ -2,6 +2,8 @@
 
 A collection of utils implemented in TypeScript.
 
+[test coverage report](https://cdn.statically.io/gh/acd02/utils/master/coverage/lcov-report/index.html)
+
 ## Getting started
 
 ```

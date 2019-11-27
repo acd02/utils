@@ -1,4 +1,4 @@
-import { result, Result, err, ok } from '../src/result'
+import { result, Result, err, ok } from '../src/result/result'
 
 describe('result', () => {
   describe('fold', () => {

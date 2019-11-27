@@ -2,8 +2,8 @@ import * as array from './array'
 import * as func from './function'
 import * as object from './object'
 import * as predicate from './predicate'
-import { result, err, ok, Result } from './result'
-import { when, whenAll } from './when'
+import { result, err, ok, Result } from './result/result'
+import { when, whenAll } from './when/when'
 
 export { array }
 export { func }

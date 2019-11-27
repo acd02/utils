@@ -1,4 +1,4 @@
-import { when, whenAll } from '../src/when'
+import { when, whenAll } from '../src/when/when'
 
 type Item = {
   label: string

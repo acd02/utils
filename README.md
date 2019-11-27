@@ -531,7 +531,7 @@ const success: Ok = ok(data)
 
 #### `result`
 
-Wraps a value of one of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/index.ts#L1) object
+Wraps a value of one of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/result.ts#L1) object
 allowing you to unfold the value to handle both cases.
 
 An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.
@@ -579,7 +579,7 @@ result(data).fold(
 
 #### `when`
 
-Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/index.ts#L1) object, allowing you
+Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object, allowing you
 to manipulate the value safely as if it was defined.
 
 Sort of like a really lightweight outlaw Maybe monad.
@@ -616,7 +616,7 @@ const otherResult = when(word)
 
 #### `whenAll`
 
-Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/index.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
+Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
 
 For the `map` method, or the second function of the `fold` method to be executed, all values inside the tuple must be truthy.
 

@@ -11,7 +11,7 @@ type Box<T> = {
    * expects a fallback value in case of the initial value was `undefined`
    * or `null`.
    */
-  getOrElse: (t: T) => T
+  getOrElse: (t: NonNullable<T>) => NonNullable<T>
   /**
    * returns your value
    */
@@ -54,9 +54,9 @@ export function when<T>(a: T) {
     return (when(undefined) as unknown) as Box<T>
   }
 
-  function getOrElse(t: T): T {
+  function getOrElse(t: NonNullable<T>): NonNullable<T> {
     if (isNone(a)) return t
-    return a
+    return a as NonNullable<T>
   }
 
   function fold<U>(onNone: () => U, onSome: (a: NonNullable<T>) => U) {

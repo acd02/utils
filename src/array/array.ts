@@ -286,7 +286,8 @@ export function prependAll<T>(as: T[]) {
  */
 export function range(start: number, end: number) {
   if (start < 0 || end < 0) return []
-  return Array.from({ length: end + 1 }, (_, i) => i).slice(start)
+
+  return Array.from(Array(end + 1).keys()).slice(start)
 }
 
 type SortRecord<T> = {

@@ -18,7 +18,7 @@
     "test:coverage": "tsdx test --coverage --collectCoverageFrom='src/**/*.ts' --collectCoverageFrom='!src/**/index.ts'",
     "lint": "tsdx lint",
     "prettier": "prettier --config ./.prettierrc.json --write \"{src,test}/**/*.{ts,tsx}\"",
-    "publish-np": "npm run build && np"
+    "publish-np": "npm run test && npm run build && np"
   },
   "peerDependencies": {},
   "husky": {

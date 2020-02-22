@@ -1,4 +1,4 @@
-type ResultBox<E, S> = {
+export type Result<E, S> = {
   /**
    * Takes two functions. a first function that will get executed if the value
    * is an `Err`, and a second function, that will get executed if the value
@@ -18,17 +18,17 @@ interface Ok<S> {
   readonly ok: S
 }
 
-export type Result<E, S> = Err<E> | Ok<S>
+// export type Result<E, S> = Err<E> | Ok<S>
 
-export function err<E = never, A = never>(e: E): Result<E, A> {
+export function err<E = never>(e: E): Err<E> {
   return { _tag_: 'Err', err: e }
 }
 
-export function ok<E = never, S = never>(a: S): Result<E, S> {
+export function ok<S = never>(a: S): Ok<S> {
   return { _tag_: 'Ok', ok: a }
 }
 
-function isErr<E, S>(a: Result<E, S>): a is Err<E> {
+function isErr<E, S>(a: Err<E> | Ok<S>): a is Err<E> {
   switch (a._tag_) {
     case 'Err':
       return true
@@ -61,8 +61,8 @@ function isErr<E, S>(a: Result<E, S>): a is Err<E> {
  * )
  *
  */
-export function result<E, S>(a: Result<E, S>) {
-  const self = {} as ResultBox<E, S>
+export function result<E, S>(a: Err<E> | Ok<S>) {
+  const self = {} as Result<E, S>
 
   function fold<U>(onErr: (a: E) => U, onSuccess: (a: S) => U) {
     if (isErr(a)) return onErr(a.err)

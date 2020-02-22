@@ -1,4 +1,4 @@
-import { result, Result, err, ok } from '../src/result/result'
+import { result, err, ok } from '../src/result/result'
 
 describe('result', () => {
   describe('fold', () => {
@@ -10,18 +10,16 @@ describe('result', () => {
       label: string
     }
 
-    type Data = Result<Error, Success>
-
     const makeData = (n: number) => {
-      if (n > 2) return ok({ label: 'great' })
+      if (n > 2) return ok<Success>({ label: 'great' })
       else
-        return err({
+        return err<Error>({
           code: 500,
         })
     }
 
-    const errData: Data = makeData(1)
-    const successData: Data = makeData(10)
+    const errData = makeData(1)
+    const successData = makeData(10)
 
     it('should execute the first function if value is an Err', () => {
       expect(

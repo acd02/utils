@@ -19,10 +19,6 @@ Then you can import these:
 
 `import { err, ok, result, Result } from 'acd-utils'`
 
-```typescript
-type Result<E, S> = Err<E> | Ok<S>
-```
-
 #### `err`
 
 Returns an `Err`
@@ -61,7 +57,7 @@ const success: Ok = ok(data)
 
 #### `result`
 
-Wraps a value of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/result.ts#L1) object
+Wraps a value of two possible types (`Ok | Err`) and returns a [`Result`](https://github.com/acd02/utils/blob/master/src/result/result.ts#L1) object
 allowing you to unfold the value to handle both cases.
 
 An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.
@@ -69,7 +65,7 @@ The first type is used for failure (E), the second for success (S).
 
 Sort of like a really really lightweight outlaw Result monad.
 
-Methods available on the `ResultBox` object are:
+Methods available on the `Result` object are:
 
 - `fold`, takes two functions
   - a first function that will get executed if the value is an `Err`
@@ -87,11 +83,12 @@ type Error = {
   code: number
 }
 
+let data: Error | Item[]
+
 function setData<T>(value: T) {
   data = value
 }
 
-const data: Result<Error, Item[]>
 
 fetch('someapi')
   .then((res: Item[]) => setData(ok(res)))

@@ -57,7 +57,10 @@ describe('when', () => {
         when(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
-          .fold(() => 'none', w => w),
+          .fold(
+            () => 'none',
+            w => w,
+          ),
       ).toEqual('none')
     })
 
@@ -79,7 +82,10 @@ describe('when', () => {
         when(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
-          .fold(() => 'none', w => w),
+          .fold(
+            () => 'none',
+            w => w,
+          ),
       ).toEqual('OK')
     })
   })
@@ -168,14 +174,20 @@ describe('when', () => {
         when((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
-          .fold(() => 'none', w => w),
+          .fold(
+            () => 'none',
+            w => w,
+          ),
       ).toEqual('none')
 
       expect(
         when(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
-          .fold(() => 'none', w => w),
+          .fold(
+            () => 'none',
+            w => w,
+          ),
       ).toEqual('none')
     })
 
@@ -189,7 +201,10 @@ describe('when', () => {
         when(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
-          .fold(() => 'none', w => w),
+          .fold(
+            () => 'none',
+            w => w,
+          ),
       ).toEqual('OK')
     })
   })
@@ -212,13 +227,19 @@ describe('whenAll', () => {
     expect(
       whenAll(['one', 2, undefined, 'bar'])
         .map(([word]) => word.toUpperCase())
-        .fold(() => 'none', w => w),
+        .fold(
+          () => 'none',
+          w => w,
+        ),
     ).toEqual('none')
 
     expect(
       whenAll(['one', 2, 3, 'bar'])
         .map(([word]) => word.toUpperCase())
-        .fold(() => 'none', w => w),
+        .fold(
+          () => 'none',
+          w => w,
+        ),
     ).toEqual('ONE')
   })
 })

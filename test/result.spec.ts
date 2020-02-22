@@ -24,11 +24,21 @@ describe('result', () => {
     const successData: Data = makeData(10)
 
     it('should execute the first function if value is an Err', () => {
-      expect(result(errData).fold(e => e.code, s => s.label.length)).toEqual(500)
+      expect(
+        result(errData).fold(
+          e => e.code,
+          s => s.label.length,
+        ),
+      ).toEqual(500)
     })
 
     it('should execute the second function if value is an Ok', () => {
-      expect(result(successData).fold(e => e.code, s => s.label.length)).toEqual(5)
+      expect(
+        result(successData).fold(
+          e => e.code,
+          s => s.label.length,
+        ),
+      ).toEqual(5)
     })
   })
 })

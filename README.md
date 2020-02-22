@@ -61,7 +61,7 @@ const success: Ok = ok(data)
 
 #### `result`
 
-Wraps a value of one of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/result.ts#L1) object
+Wraps a value of two possible types (`Result`) and returns a [`ResultBox`](https://github.com/acd02/utils/blob/master/src/result/result.ts#L1) object
 allowing you to unfold the value to handle both cases.
 
 An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.

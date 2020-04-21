@@ -1,7 +1,7 @@
 {
   "name": "acd-utils",
   "repository": "github:acd02/utils",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "license": "ISC",
   "author": "acd02",
   "main": "dist/index.js",

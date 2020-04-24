@@ -114,6 +114,7 @@ Sort of like a really lightweight unlawful Maybe monad.
 Methods available on the `Box` object are:
 
 - `map`, takes your value as an argument, allowing you to update it safely
+- `flatMap`, if value is defined, calls the function you give on the item in the Box and returns its result
 - `filter`, takes your value as an argument, allowing you to return a predicate
 - `fold`, takes two functions
   - a first function that will get executed if the value is `undefined` or `null`, allowing you to return a fallback value.
@@ -139,6 +140,17 @@ const otherResult = when(word)
   .map(w => w + '!')
   .getOrElse(('hello')
 // otherResult === 'SOME TEXT!'
+
+type Obj = {
+  label?: string
+}
+const someObj: Obj | undefined = {
+  label: 'some label'
+}
+const someObjResult = when(someObj)
+  .flatMap(o => when(o.label).map(l => l.toUpperCase()))
+  .getOrElse(('hello')
+// someObjResult === 'SOME LABEL'
 ```
 
 #### `whenAll`

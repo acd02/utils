@@ -63,7 +63,7 @@ allowing you to unfold the value to handle both cases.
 An instance of `Result<E, S>` is either an instance of `Err` or `Ok`.
 The first type is used for failure (E), the second for success (S).
 
-Sort of like a really really lightweight outlaw Result monad.
+Sort of like a really really lightweight unlawful Result monad.
 
 Methods available on the `Result` object are:
 
@@ -109,7 +109,7 @@ result(data).fold(
 Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object, allowing you
 to manipulate the value safely as if it was defined.
 
-Sort of like a really lightweight outlaw Maybe monad.
+Sort of like a really lightweight unlawful Maybe monad.
 
 Methods available on the `Box` object are:
 
@@ -147,7 +147,7 @@ Wraps a tuple (up to 5 elements) containing potentially `nullable` values and re
 
 For the `map` method, or the second function of the `fold` method to be executed, all values inside the tuple must be truthy.
 
-Sort of like a really lightweight outlaw Maybe monad.
+Sort of like a really lightweight unlawful Maybe monad.
 
 Methods available on the `Box` object are:
 

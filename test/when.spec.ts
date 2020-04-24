@@ -3,16 +3,19 @@ import { when, whenAll } from '../src/when/when'
 type Item = {
   label: string
   id: number
+  info?: string
 }
+
+const item: Item | undefined = {
+  label: 'ok',
+  id: 1,
+}
+
+const undefinedItem = (undefined as unknown) as Item | undefined
 
 describe('when', () => {
   describe('map', () => {
     it('should be able to chain calls to the map function (with the last returned value as an argument)', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when(item)
           .map(i => i.label.toUpperCase())
@@ -28,10 +31,44 @@ describe('when', () => {
     })
 
     it('should not execute the map function if the value is not truthy', () => {
-      const item = (undefined as unknown) as Item | undefined
+      expect(
+        when(undefinedItem)
+          .map(i => i.label.toUpperCase())
+          .get(),
+      ).toEqual(undefined)
+    })
+  })
+
+  describe('flatMap', () => {
+    it('should be able to safely call the function applied on the item passed to the Box', () => {
+      const itemWithInfo: Item | undefined = {
+        label: 'ok',
+        id: 1,
+        info: 'some info',
+      }
 
       expect(
         when(item)
+          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+          .get(),
+      ).toEqual(undefined)
+
+      expect(
+        when(itemWithInfo)
+          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+          .get(),
+      ).toEqual('SOME INFO')
+
+      expect(
+        when(undefinedItem)
+          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+          .get(),
+      ).toEqual(undefined)
+    })
+
+    it('should not execute the map function if the value is not truthy', () => {
+      expect(
+        when(undefinedItem)
           .map(i => i.label.toUpperCase())
           .get(),
       ).toEqual(undefined)
@@ -40,11 +77,6 @@ describe('when', () => {
 
   describe('filter', () => {
     it('should prevent the next call to the map function, or the second argument to the fold function, if the filter function returns false', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when(item)
           .map(i => i.label.toUpperCase())
@@ -65,11 +97,6 @@ describe('when', () => {
     })
 
     it('should not prevent the next call to the map function, or the second argument to the fold function, if the filter function returns true', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when(item)
           .map(i => i.label.toUpperCase())
@@ -92,11 +119,6 @@ describe('when', () => {
 
   describe('get', () => {
     it('should return the last returned value', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
@@ -125,11 +147,6 @@ describe('when', () => {
 
   describe('getOrElse', () => {
     it('should return a fallback value if the last returned value was not defined', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
@@ -148,11 +165,6 @@ describe('when', () => {
     })
 
     it('should not return a fallback value if the last returned value was defined', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when(item)
           .map(i => i.label.toUpperCase())
@@ -165,11 +177,6 @@ describe('when', () => {
 
   describe('fold', () => {
     it('should execute the first function if the last returned value was not defined', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
@@ -192,11 +199,6 @@ describe('when', () => {
     })
 
     it('should execute the second function if the last returned value was not defined', () => {
-      const item: Item | undefined = {
-        label: 'ok',
-        id: 1,
-      }
-
       expect(
         when(item)
           .map(i => i.label.toUpperCase())

@@ -4,6 +4,11 @@ type Box<T> = {
    */
   map: <U>(fn: (a: NonNullable<T>) => U) => Box<U>
   /**
+   * if value is defined, calls the function you give on
+   * the value in the Box and returns its result
+   */
+  flatMap: <U>(fn: (a: NonNullable<T>) => Box<U>) => Box<U>
+  /**
    * takes your value as an argument, allowing you to return a predicate
    */
   filter: (fn: (a: NonNullable<T>) => boolean) => Box<T>
@@ -49,6 +54,11 @@ export function when<T>(a: T) {
     return when(fn(a as NonNullable<T>))
   }
 
+  function flatMap<U>(fn: (arg: NonNullable<T>) => Box<U>) {
+    if (isNone(a)) return when(undefined as unknown) as Box<U>
+    return fn(a as NonNullable<T>)
+  }
+
   function filter(fn: (arg: NonNullable<T>) => boolean) {
     if (!isNone(a) && fn(a as NonNullable<T>)) return when(a)
     return (when(undefined) as unknown) as Box<T>
@@ -69,6 +79,7 @@ export function when<T>(a: T) {
   }
 
   self.map = map
+  self.flatMap = flatMap
   self.filter = filter
   self.getOrElse = getOrElse
   self.get = get

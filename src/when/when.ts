@@ -5,7 +5,7 @@ type Box<T> = {
   map: <U>(fn: (a: NonNullable<T>) => U) => Box<U>
   /**
    * if value is defined, calls the function you give on
-   * the value in the Box and returns its result
+   * the item in the Box and returns its result
    */
   flatMap: <U>(fn: (a: NonNullable<T>) => Box<U>) => Box<U>
   /**

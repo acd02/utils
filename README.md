@@ -13,7 +13,7 @@ npm install acd-utils
 Then you can import these:
 
 - [result](#Result)
-- [when](#When)
+- [maybe](#Maybe)
 
 ## Result
 
@@ -99,13 +99,13 @@ data.fold(
 )
 ```
 
-## When
+## Maybe
 
-`import { when, whenAll } from 'acd-utils'`
+`import { maybe, maybeAll } from 'acd-utils'`
 
-#### `when`
+#### `maybe`
 
-Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object, allowing you
+Wraps a potentially `nullable` value and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/maybe/maybe.ts#L1) object, allowing you
 to manipulate the value safely as if it was defined.
 
 Sort of like a really lightweight unlawful Maybe monad.
@@ -126,15 +126,15 @@ Methods available on the `Box` object are:
 _example_
 
 ```typescript
-const maybeWord: string | undefined = undefined
-const result = when(maybeWord)
+const word: string | undefined = undefined
+const result = maybe(word)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .get()
 // result === undefined
 
-const maybeWord2: string | undefined = 'hello'
-const result2 = when(maybeWord2)
+const word2: string | undefined = 'hello'
+const result2 = maybe(word2)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .get()
@@ -145,22 +145,22 @@ const result2 = when(maybeWord2)
 _example_
 
 ```typescript
-const maybeWord: string | undefined = undefined
-const result = when(maybeWord)
+const word: string | undefined = undefined
+const result = maybe(word)
   .filter(w => w.length > 2)
   .map(w => w + '!')
   .get()
 // result === undefined
 
-const maybeWord2: string | undefined = 'ok'
-const result2 = when(maybeWord2)
+const word2: string | undefined = 'ok'
+const result2 = maybe(word2)
   .filter(w => w.length > 2)
   .map(w => w + '!')
   .get()
 // result2 === undefined
 
-const maybeWord3: string | undefined = 'hello'
-const result3 = when(maybeWord3)
+const word3: string | undefined = 'hello'
+const result3 = maybe(word3)
   .filter(w => w.length > 2)
   .map(w => w + '!')
   .get()
@@ -175,19 +175,19 @@ type Obj = {
   label?: string
 }
 
-const maybeObj: Obj | undefined = {
+const obj: Obj | undefined = {
   label: 'some label'
 }
 
-const result = when(maybeObj)
-  .flatMap(obj => when(obj.label).map(label => label.toUpperCase()))
+const result = maybe(obj)
+  .flatMap(obj => maybe(obj.label).map(label => label.toUpperCase()))
   .get()
 // result === 'SOME LABEL'
 
-const maybeObj2: Obj | undefined = undefined
+const obj2: Obj | undefined = undefined
 
-const result2 = when(maybeObj2)
-  .flatMap(obj => when(obj.label).map(label => label.toUpperCase()))
+const result2 = maybe(obj2)
+  .flatMap(obj => maybe(obj.label).map(label => label.toUpperCase()))
   .get()
 // result2 === undefined
 ```
@@ -200,20 +200,20 @@ type Obj = {
   label: string
 }
 
-const maybeObj: Obj | undefined = {
+const obj: Obj | undefined = {
   label: 'some label'
 }
 
-const result = when(maybeObj)
+const result = maybe(obj)
   .fold(
     () => 'oops',
     ({ label }) => label.toUpperCase()
   )
 // result === 'SOME LABEL
 
-const maybeObj2: Obj | undefined = undefined
+const obj2: Obj | undefined = undefined
 
-const result2 = when(maybeObj)
+const result2 = maybe(obj2)
   .fold(
     () => 'oops',
     ({ label }) => label.toUpperCase()
@@ -225,15 +225,15 @@ const result2 = when(maybeObj)
 _example_
 
 ```typescript
-const maybeWord: string | undefined = undefined
-const result = when(maybeWord)
+const word: string | undefined = undefined
+const result = maybe(word)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .getOrElse('fallback')
 // result === 'fallback'
 
-const maybeWord2: string | undefined = 'hello'
-const result2 = when(maybeWord2)
+const word2: string | undefined = 'hello'
+const result2 = maybe(word2)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .getOrElse('fallback')
@@ -244,24 +244,24 @@ const result2 = when(maybeWord2)
 _example_
 
 ```typescript
-const maybeWord: string | undefined = undefined
-const result = when(maybeWord)
+const word: string | undefined = undefined
+const result = maybe(word)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .get()
 // result === undefined
 
-const maybeWord2: string | undefined = 'hello'
-const result2 = when(maybeWord2)
+const word2: string | undefined = 'hello'
+const result2 = maybe(word2)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
   .get()
 // result2 === 'HELLO!'
 ```
 
-#### `whenAll`
+#### `maybeAll`
 
-Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
+Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/maybe/maybe.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
 
 For the `map`, `filter` methods, or the second function of the `fold` method to be executed, all values inside the tuple must be defined.
 
@@ -280,19 +280,19 @@ Methods available on the `Box` object are:
 _example_
 
 ```typescript
-const maybeWord: string | undefined = undefined
-const maybeNum: number | undefined = 36
-const result = whenAll([maybeWord, maybeNum])
-  .filter(([word]) => word.length > 4)
-  .map(([word, num]) => `${String(num)} ${word}`)
+const word: string | undefined = undefined
+const num: number | undefined = 36
+const result = maybeAll([word, num])
+  .filter(([w]) => w.length > 4)
+  .map(([w, n]) => `${String(n)} ${w}`)
   .getOrElse('wu')
 // result === 'wu'
 
-const maybeWord2: string | undefined = 'chambers'
-const maybeNum2: number | undefined = 36
-const result2= whenAll([maybeWord, maybeNum])
-  .filter(([word]) => word.length > 4)
-  .map(([word, num]) => `${String(num)} ${word}`)
+const word2: string | undefined = 'chambers'
+const num2: number | undefined = 36
+const result2= maybeAll([word2, num2])
+  .filter(([w]) => w.length > 4)
+  .map(([w, n]) => `${String(n)} ${w}`)
   .getOrElse('wu')
 // result2 === '36 chambers'
 ```

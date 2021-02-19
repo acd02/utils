@@ -1,4 +1,4 @@
-import { when, whenAll } from '../src/when/when'
+import { maybe, maybeAll } from '../src/maybe/maybe'
 
 type Item = {
   label: string
@@ -13,17 +13,17 @@ const item: Item | undefined = {
 
 const undefinedItem = (undefined as unknown) as Item | undefined
 
-describe('when', () => {
+describe('maybe', () => {
   describe('map', () => {
     it('should be able to chain calls to the map function (with the last returned value as an argument)', () => {
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .get(),
       ).toEqual('OK')
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .map(l => l.length)
           .get(),
@@ -32,7 +32,7 @@ describe('when', () => {
 
     it('should not execute the map function if the value is not truthy', () => {
       expect(
-        when(undefinedItem)
+        maybe(undefinedItem)
           .map(i => i.label.toUpperCase())
           .get(),
       ).toEqual(undefined)
@@ -48,27 +48,27 @@ describe('when', () => {
       }
 
       expect(
-        when(item)
-          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+        maybe(item)
+          .flatMap(i => maybe(i.info).map(info => info.toUpperCase()))
           .get(),
       ).toEqual(undefined)
 
       expect(
-        when(itemWithInfo)
-          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+        maybe(itemWithInfo)
+          .flatMap(i => maybe(i.info).map(info => info.toUpperCase()))
           .get(),
       ).toEqual('SOME INFO')
 
       expect(
-        when(undefinedItem)
-          .flatMap(i => when(i.info).map(info => info.toUpperCase()))
+        maybe(undefinedItem)
+          .flatMap(i => maybe(i.info).map(info => info.toUpperCase()))
           .get(),
       ).toEqual(undefined)
     })
 
     it('should not execute the map function if the value is not truthy', () => {
       expect(
-        when(undefinedItem)
+        maybe(undefinedItem)
           .map(i => i.label.toUpperCase())
           .get(),
       ).toEqual(undefined)
@@ -78,7 +78,7 @@ describe('when', () => {
   describe('filter', () => {
     it('should prevent the next call to the map function, or the second argument to the fold function, if the filter function returns false', () => {
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .map(w => w.length)
@@ -86,7 +86,7 @@ describe('when', () => {
       ).toEqual(undefined)
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .fold(
@@ -98,7 +98,7 @@ describe('when', () => {
 
     it('should not prevent the next call to the map function, or the second argument to the fold function, if the filter function returns true', () => {
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
           .map(w => w.length)
@@ -106,7 +106,7 @@ describe('when', () => {
       ).toEqual(2)
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
           .fold(
@@ -120,7 +120,7 @@ describe('when', () => {
   describe('get', () => {
     it('should return the last returned value', () => {
       expect(
-        when((undefined as unknown) as Item)
+        maybe((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .map(w => w.length)
@@ -128,7 +128,7 @@ describe('when', () => {
       ).toEqual(undefined)
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .map(w => w.length)
@@ -136,7 +136,7 @@ describe('when', () => {
       ).toEqual(undefined)
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
           .map(w => w.length)
@@ -148,7 +148,7 @@ describe('when', () => {
   describe('getOrElse', () => {
     it('should return a fallback value if the last returned value was not defined', () => {
       expect(
-        when((undefined as unknown) as Item)
+        maybe((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .map(w => w.length)
@@ -156,7 +156,7 @@ describe('when', () => {
       ).toEqual(10)
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .map(w => w.length)
@@ -166,7 +166,7 @@ describe('when', () => {
 
     it('should not return a fallback value if the last returned value was defined', () => {
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
           .map(w => w.length)
@@ -178,7 +178,7 @@ describe('when', () => {
   describe('fold', () => {
     it('should execute the first function if the last returned value was not defined', () => {
       expect(
-        when((undefined as unknown) as Item)
+        maybe((undefined as unknown) as Item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .fold(
@@ -188,7 +188,7 @@ describe('when', () => {
       ).toEqual('none')
 
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 10)
           .fold(
@@ -200,7 +200,7 @@ describe('when', () => {
 
     it('should execute the second function if the last returned value was not defined', () => {
       expect(
-        when(item)
+        maybe(item)
           .map(i => i.label.toUpperCase())
           .filter(w => w.length > 1)
           .fold(
@@ -212,22 +212,22 @@ describe('when', () => {
   })
 })
 
-describe('whenAll', () => {
+describe('maybeAll', () => {
   it('should only execute the map function or the second argument to the fold function if all values are truthy', () => {
     expect(
-      whenAll(['one', 2, undefined, 'bar'])
+      maybeAll(['one', 2, undefined, 'bar'])
         .map(([word]) => word.toUpperCase())
         .get(),
     ).toEqual(undefined)
 
     expect(
-      whenAll(['one', 2, 3, 'bar'])
+      maybeAll(['one', 2, 3, 'bar'])
         .map(([word]) => word.toUpperCase())
         .get(),
     ).toEqual('ONE')
 
     expect(
-      whenAll(['one', 2, undefined, 'bar'])
+      maybeAll(['one', 2, undefined, 'bar'])
         .map(([word]) => word.toUpperCase())
         .fold(
           () => 'none',
@@ -236,7 +236,7 @@ describe('whenAll', () => {
     ).toEqual('none')
 
     expect(
-      whenAll(['one', 2, 3, 'bar'])
+      maybeAll(['one', 2, 3, 'bar'])
         .map(([word]) => word.toUpperCase())
         .fold(
           () => 'none',

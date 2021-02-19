@@ -38,11 +38,8 @@ type Box<T> = {
  * @param value A potentially nullable value
  * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#when
- *
  */
-export function when<T>(a: T) {
+export function maybe<T>(a: T) {
   const self = {} as Box<T>
 
   function isNone(a: T) {
@@ -50,18 +47,18 @@ export function when<T>(a: T) {
   }
 
   function map<U>(fn: (arg: NonNullable<T>) => U) {
-    if (isNone(a)) return when(undefined as unknown) as Box<U>
-    return when(fn(a as NonNullable<T>))
+    if (isNone(a)) return maybe(undefined as unknown) as Box<U>
+    return maybe(fn(a as NonNullable<T>))
   }
 
   function flatMap<U>(fn: (arg: NonNullable<T>) => Box<U>) {
-    if (isNone(a)) return when(undefined as unknown) as Box<U>
+    if (isNone(a)) return maybe(undefined as unknown) as Box<U>
     return fn(a as NonNullable<T>)
   }
 
   function filter(fn: (arg: NonNullable<T>) => boolean) {
-    if (!isNone(a) && fn(a as NonNullable<T>)) return when(a)
-    return (when(undefined) as unknown) as Box<T>
+    if (!isNone(a) && fn(a as NonNullable<T>)) return maybe(a)
+    return (maybe(undefined) as unknown) as Box<T>
   }
 
   function getOrElse(t: NonNullable<T>): NonNullable<T> {
@@ -97,11 +94,8 @@ export function when<T>(a: T) {
  * @param tuple A tuple (array) containing potentially nullable values
  * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T1, T2, T3, T4, T5>(
+export function maybeAll<T1, T2, T3, T4, T5>(
   as: [T1, T2, T3, T4, T5],
 ): Box<
   [NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>, NonNullable<T5>]
@@ -115,11 +109,8 @@ export function whenAll<T1, T2, T3, T4, T5>(
  * @param tuple A tuple (array) containing potentially nullable values
  * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T1, T2, T3, T4>(
+export function maybeAll<T1, T2, T3, T4>(
   as: [T1, T2, T3, T4],
 ): Box<[NonNullable<T1>, NonNullable<T2>, NonNullable<T3>, NonNullable<T4>]>
 /**
@@ -131,11 +122,8 @@ export function whenAll<T1, T2, T3, T4>(
  * @param tuple A tuple (array) containing potentially nullable values.
  * @returns Returns a `Box` with 4 methods, `map`, `filter`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T1, T2, T3>(
+export function maybeAll<T1, T2, T3>(
   as: [T1, T2, T3],
 ): Box<[NonNullable<T1>, NonNullable<T2>, NonNullable<T3>]>
 /**
@@ -147,11 +135,8 @@ export function whenAll<T1, T2, T3>(
  * @param tuple A tuple (array) containing potentially nullable values
  * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T1, T2>(as: [T1, T2]): Box<[NonNullable<T1>, NonNullable<T2>]>
+export function maybeAll<T1, T2>(as: [T1, T2]): Box<[NonNullable<T1>, NonNullable<T2>]>
 /**
  * Wraps a tuple (up to 5 elements) containing potentially `nullable` values and
  * returns a `Box` object, allowing you
@@ -161,11 +146,8 @@ export function whenAll<T1, T2>(as: [T1, T2]): Box<[NonNullable<T1>, NonNullable
  * @param tuple A tuple (array) containing potentially nullable values.
  * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T1>(as: [T1]): Box<[NonNullable<T1>]>
+export function maybeAll<T1>(as: [T1]): Box<[NonNullable<T1>]>
 /**
  * Wraps a tuple (up to 5 elements) containing potentially `nullable` values and
  * returns a `Box` object, allowing you
@@ -175,12 +157,9 @@ export function whenAll<T1>(as: [T1]): Box<[NonNullable<T1>]>
  * @param tuple A tuple (array) containing potentially nullable values.
  * @returns Returns a `Box` with 5 methods, `map`, `filter`, `fold`, `get` and `getOrElse`
  *
- * @example
- * see: https://github.com/acd02/utils#whenall
- *
  */
-export function whenAll<T>(as: T[]) {
+export function maybeAll<T>(as: T[]) {
   return !as.some(a => a === undefined || a === null)
-    ? when<T>((as as unknown) as T)
-    : when<T>((undefined as unknown) as T)
+    ? maybe<T>((as as unknown) as T)
+    : maybe<T>((undefined as unknown) as T)
 }

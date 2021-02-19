@@ -74,6 +74,8 @@ Methods available on the `Result` object are:
 _example_
 
 ```typescript
+import { err, ok, Result, result } from 'acd-utils'
+
 type Item = {
   id: number
   label: string
@@ -83,20 +85,17 @@ type Error = {
   code: number
 }
 
-let data: Error | Item[]
-
-function setData<T>(value: T) {
-  data = value
+async function httpGet<Res, Err>(url: string): Promise<Result<Err, Res>> {
+  const { error, data } = await fetch(url).then(i => i.json())
+  
+  return result(error ? err(error) : ok(data as Res))
 }
 
+const data = await httpGet<Item, Error>('someUrl')
 
-fetch('someapi')
-  .then((res: Item[]) => setData(ok(res)))
-  .catch((e: Error) => setData(err(e)))
-
-result(data).fold(
+data.fold(
   e => `the error code is ${e.code}`,
-  items => `the data is ${JSON.stringify(items, null, 2)}`,
+  item => `label is ${item.label}`,
 )
 ```
 
@@ -113,51 +112,158 @@ Sort of like a really lightweight unlawful Maybe monad.
 
 Methods available on the `Box` object are:
 
-- `map`, takes your value as an argument, allowing you to update it safely
-- `flatMap`, if value is defined, calls the function you give on the item in the Box and returns its result
-- `filter`, takes your value as an argument, allowing you to return a predicate
-- `fold`, takes two functions
+- [`map`](#map), takes your value as an argument, allowing you to update it safely
+- [`filter`](#filter), takes your value as an argument, allowing you to return a predicate
+- [`flatMap`](#flatMap), if value is defined, calls the function you give on the item in the Box and returns its result
+- [`fold`](#fold), takes two functions
   - a first function that will get executed if the value is `undefined` or `null`, allowing you to return a fallback value.
   - a second function that will get called with the value if defined. The result of this function will be then returned.
-- `getOrElse`, expects a fallback value in case of the initial value was `undefined` or `null`
-- `get`, returns your value.
+- [`getOrElse`](#getOrElse), expects a fallback value in case of the initial value was `undefined` or `null`
+- [`get`](#get), returns your value
 
+
+### `map`
 _example_
 
 ```typescript
-const word: string | undefined = undefined
-const result = when(word)
-  .filter(w => w.length > 4)
+const maybeWord: string | undefined = undefined
+const result = when(maybeWord)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
-  .getOrElse(('hello')
-// result === 'hello'
+  .get()
+// result === undefined
 
-const otherWord: string | undefined = 'some text'
-const otherResult = when(word)
-  .filter(w => w.length > 4)
+const maybeWord2: string | undefined = 'hello'
+const result2 = when(maybeWord2)
   .map(w => w.toUpperCase())
   .map(w => w + '!')
-  .getOrElse(('hello')
-// otherResult === 'SOME TEXT!'
+  .get()
+// result2 === 'HELLO!'
+```
 
+### `filter`
+_example_
+
+```typescript
+const maybeWord: string | undefined = undefined
+const result = when(maybeWord)
+  .filter(w => w.length > 2)
+  .map(w => w + '!')
+  .get()
+// result === undefined
+
+const maybeWord2: string | undefined = 'ok'
+const result2 = when(maybeWord2)
+  .filter(w => w.length > 2)
+  .map(w => w + '!')
+  .get()
+// result2 === undefined
+
+const maybeWord3: string | undefined = 'hello'
+const result3 = when(maybeWord3)
+  .filter(w => w.length > 2)
+  .map(w => w + '!')
+  .get()
+// result3 === 'hello!'
+```
+
+### `flatMap`
+_example_
+
+```typescript
 type Obj = {
   label?: string
 }
-const someObj: Obj | undefined = {
+
+const maybeObj: Obj | undefined = {
   label: 'some label'
 }
-const someObjResult = when(someObj)
-  .flatMap(o => when(o.label).map(l => l.toUpperCase()))
-  .getOrElse(('hello')
-// someObjResult === 'SOME LABEL'
+
+const result = when(maybeObj)
+  .flatMap(obj => when(obj.label).map(label => label.toUpperCase()))
+  .get()
+// result === 'SOME LABEL'
+
+const maybeObj2: Obj | undefined = undefined
+
+const result2 = when(maybeObj2)
+  .flatMap(obj => when(obj.label).map(label => label.toUpperCase()))
+  .get()
+// result2 === undefined
+```
+
+### `fold`
+_example_
+
+```typescript
+type Obj = {
+  label: string
+}
+
+const maybeObj: Obj | undefined = {
+  label: 'some label'
+}
+
+const result = when(maybeObj)
+  .fold(
+    () => 'oops',
+    ({ label }) => label.toUpperCase()
+  )
+// result === 'SOME LABEL
+
+const maybeObj2: Obj | undefined = undefined
+
+const result2 = when(maybeObj)
+  .fold(
+    () => 'oops',
+    ({ label }) => label.toUpperCase()
+  )
+// result2 === 'oops'
+```
+
+### `getOrElse`
+_example_
+
+```typescript
+const maybeWord: string | undefined = undefined
+const result = when(maybeWord)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .getOrElse('fallback')
+// result === 'fallback'
+
+const maybeWord2: string | undefined = 'hello'
+const result2 = when(maybeWord2)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .getOrElse('fallback')
+// result2 === 'HELLO!'
+```
+
+### `get`
+_example_
+
+```typescript
+const maybeWord: string | undefined = undefined
+const result = when(maybeWord)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .get()
+// result === undefined
+
+const maybeWord2: string | undefined = 'hello'
+const result2 = when(maybeWord2)
+  .map(w => w.toUpperCase())
+  .map(w => w + '!')
+  .get()
+// result2 === 'HELLO!'
 ```
 
 #### `whenAll`
 
 Wraps a tuple (up to 5 elements) containing potentially `nullable` values and returns a [`Box`](https://github.com/acd02/utils/blob/master/src/when/when.ts#L1) object (containing your tuple), allowing you to manipulate the values safely, as if they were all defined.
 
-For the `map` method, or the second function of the `fold` method to be executed, all values inside the tuple must be truthy.
+For the `map`, `filter` methods, or the second function of the `fold` method to be executed, all values inside the tuple must be defined.
 
 Sort of like a really lightweight unlawful Maybe monad.
 
@@ -169,26 +275,26 @@ Methods available on the `Box` object are:
   - a first function that will get executed if the value is `undefined` or `null`, allowing you to return a fallback value.
   - a second function that will get called with the value if defined. The result of this function will be then returned.
 - `getOrElse`, expects a fallback value in case of the initial value was `undefined` or `null`
-- `get`, returns your value.
+- `get`, returns your value
 
 _example_
 
 ```typescript
-const word: string | undefined = undefined
-const num: number | undefined = 1
-const result = whenAll([word, num])
-  .filter(([w]) => w.length > 4)
-  .map(([w, n]) => `${w.toUpperCase()} ${n}`)
-  .getOrElse('hello')
-// result === 'hello'
+const maybeWord: string | undefined = undefined
+const maybeNum: number | undefined = 36
+const result = whenAll([maybeWord, maybeNum])
+  .filter(([word]) => word.length > 4)
+  .map(([word, num]) => `${String(num)} ${word}`)
+  .getOrElse('wu')
+// result === 'wu'
 
-const otherWord: string | undefined = 'some text'
-const otherNum: number | undefined = 1
-const otherResult = whenAll([word, num])
-  .filter(([w]) => w.length > 4)
-  .map(([w, n]) => `${w.toUpperCase()} ${n}`)
-  .getOrElse(('hello')
-// otherResult === 'SOME TEXT 1'
+const maybeWord2: string | undefined = 'chambers'
+const maybeNum2: number | undefined = 36
+const result2= whenAll([maybeWord, maybeNum])
+  .filter(([word]) => word.length > 4)
+  .map(([word, num]) => `${String(num)} ${word}`)
+  .getOrElse('wu')
+// result2 === '36 chambers'
 ```
 
 ---

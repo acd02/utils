@@ -2,7 +2,7 @@
 
 A collection of utils implemented in TypeScript.
 
-[test coverage report](https://acd02-utils-test-coverage.netlify.app/)
+[test coverage report](https://acd02-utils-test-coverage.vercel.app/)
 
 ## Getting started
 
